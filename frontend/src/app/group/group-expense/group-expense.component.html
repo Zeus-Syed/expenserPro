@@ -1,0 +1,16 @@
+
+<div *ngIf='groupSingle'>
+<div *ngFor="let group of groupSingle"> 
+    <h2>{{group.groupName}} </h2> 
+<br>
+</div>
+<button type="button" (click)='deleteGroup()' class="btn btn-warning">Delete this Group</button>
+</div>
+<br>
+<h3>Users of this group</h3>
+<div *ngIf='usersList'>
+        <div *ngFor="let user of usersList"> 
+      <li>  {{user.firstName}} </li>
+
+        </div>
+        </div>

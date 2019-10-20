@@ -13,16 +13,27 @@ import { UserService } from 'src/app/user.service';
 export class GroupViewComponent implements OnInit {
     //public groupName;
     public emptyArray =  [];
-public usersArray;
+    public temp;
+public groupsArray;
   constructor(public toastr: ToastrModule,
-     public groupservice: GroupServiceService,
+     public groupService: GroupServiceService,
       public router: Router, public userService: UserService) { }
 
   ngOnInit() {
      
-    this.usersArray = this.userService.getAllUsers().subscribe(
+     this.groupService.getAllGroups().subscribe(
       (data)=>{
-         this.usersArray = data['data'];
+         this.groupsArray = data['data']; 
+         console.log(this.groupsArray);
+         //this.temp = this.groupsArray.toObject();
+         //let temp = this.groupsArray.userList;
+         //console.log(temp);
+        // this.groupsArray = JSON.parse(this.groupsArray.userList);
+        //for(let x of this.groupsArray){
+         // this.emptyArray = JSON.parse(x.userList);
+        //}
+
+
       },
       (err)=>{
        console.log("some error");
@@ -30,6 +41,12 @@ public usersArray;
     )
 
   }
+
+  public goToCreateGroup =()=>{
+this.router.navigate(['/gcreate']);
+  }
+
+
 
 
 

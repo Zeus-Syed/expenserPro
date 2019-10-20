@@ -1,17 +1,30 @@
+<nav class="navbar navbar-dark bg-dark">
+    <span class="navbar-brand mb-0 h1">CREATE A GROUP</span>
+  </nav>
+  <hr>
+  <hr>
+<div class='container'>
 <div class='col-md-12'>
-    <form #signUpForm="ngForm" (ngSubmit)="signUp()">
+    <form #createGroupForm="ngForm" (ngSubmit)="createGroup()">
         
         <div class="form-group">
             <label>Group Name</label>
             <input type="text" class="form-control" name="newGroupName" [(ngModel)]="newGroupName" #groupname="ngModel"
                 required>
-        </div>
-        <div class="form-group">
-            <label>Select Users</label>
-           <button type="submit" class="btn btn-primary" (click)="goToSignin()">Click HEre</button>
+                <small id="emailHelp" class="form-text text-muted">Group name must be unique and stylish!!!</small>
         </div>
         
-        <button type="submit" class="btn btn-success" >Sign-Up</button>
-        <!--button type="submit" class="btn btn-primary" (click)="goToSignin()">log-in</button-->
+        <!--div class="form-group">
+            <button type="button" class="btn btn-primary" (click)="goToGusers()">SELECT USERS</button>
+
+        </div-->
+        <div class='form-group'>
+          <!---- selected user: {{usersList}}-->
+            <app-group-users (listEvent)='receiveList($event)'></app-group-users>
+        </div>
+        
+        <button type="submit" class="btn btn-success" >CREATE GROUP</button>
+        
     </form>
+</div>
 </div>

@@ -2,18 +2,41 @@
 
 <div class="container" style="text-align:center">
 
+  <h3>Available Users:</h3>
 
-
-    <div class="row" style="text-align:center" *ngIf="usersArray.length>0">
-<div *ngFor = 'let user of usersArray'  class="col-md-4">
+    <div style="text-align:center" *ngIf="usersArray.length>0">
+<div *ngFor = 'let user of usersArray'  (click)="storeUsers(user.userId, user.firstName)" class="col-md-4">
     <div class="list-group">
-    <button type="button" class="list-group-item list-group-item-action">
-      {{user.firstName}}
-    </button>
-  </div>
-
+      <div class="idcheck" *ngIf=' user.userId != activeUserId '>
+    <div  type="button" class="list-group-item list-group-item-action">
+      {{user.firstName}} 
+    </div>
+      </div>
   </div>
 
 </div>
+
+</div>
+
+
+<h3>Selected Users:</h3>
+<h3>Click on the below users to REMOVE from the list!!!</h3>
+<br>
+<label>YOU and</label>
+<div style="text-align:center" *ngIf="recordsArray.length>0">
+  <div *ngFor = 'let record of recordsArray'  (click)="removeRecords(record)" class="col-md-4">
+      <div class="list-group">
+        <div class='idcheck' >
+      <div  type="button" class="list-group-item list-group-item-action" >
+        {{record.firstName}} 
+      </div>
+    </div>
+    </div>
+  
+  </div>
+  
+  </div>
+
+  <button type="button" (click) = 'sendUsersList()' class='btn btn-primary'>Confirm</button>
 
 </div>

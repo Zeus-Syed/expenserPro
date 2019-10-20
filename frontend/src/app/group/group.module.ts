@@ -6,17 +6,23 @@ import { RouterModule } from '@angular/router';
 import { GroupServiceService } from './group-service.service';
 import { GroupCreateComponent } from './group-create/group-create.component';
 import { GroupUsersComponent } from './group-users/group-users.component';
+import { FormsModule } from '@angular/forms';
+import { GroupExpenseComponent } from './group-expense/group-expense.component';
+
 
 
 
 @NgModule({
-  declarations: [GroupViewComponent, GroupCreateComponent, GroupUsersComponent],
+  declarations: [GroupViewComponent, GroupCreateComponent, GroupUsersComponent, GroupExpenseComponent],
   imports: [
     CommonModule,
+    FormsModule,
     ToastrModule.forRoot(),
     RouterModule.forChild([
       {path: 'group', component: GroupViewComponent},
-      {path: 'gcreate', component: GroupCreateComponent}
+      {path: 'gcreate', component: GroupCreateComponent},
+      {path: 'gusers', component: GroupUsersComponent},
+      {path: 'gsingle/:groupId', component: GroupExpenseComponent}
     ])
   ],
   providers: [GroupServiceService]
