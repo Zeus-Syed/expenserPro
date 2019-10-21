@@ -5,8 +5,8 @@
 <h2>All Groups</h2>
 <button type='button' (click)='goToCreateGroup()' class="btn btn-warning">CREATE A NEW GROUP</button>
 
-    <div style="text-align:center" *ngIf="groupsArray">
-<div *ngFor = 'let group of groupsArray'  class="col-md-4">
+    <div style="text-align:center" *ngIf="tempGroupsArray">
+<div *ngFor = 'let group of tempGroupsArray'  class="col-md-4">
   
     <div class="list-group">
     <button type="button" class="list-group-item list-group-item-action" [routerLink]="['/gsingle',group.groupId]"> 

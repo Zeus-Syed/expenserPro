@@ -38,7 +38,7 @@
                 #Phoneno="ngModel" placeholder='Mobile.no' required>
         </div>
         
-        <button type="submit" class="btn btn-success" >Sign-Up</button>
+        <button type="submit" class="btn btn-success" [disabled]='!signUpForm.form.valid'>Sign-Up</button>
         <button type="submit" class="btn btn-primary" (click)="goToSignin()">log-in</button>
     </form>
 </div>

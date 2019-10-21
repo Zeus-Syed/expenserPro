@@ -13,6 +13,10 @@ public groupSingle;
 public temp;
 public userArray;
 public usersList;
+public newExpenseName;
+public newAmount;
+public userNames = [];
+public payerName:string = 'noob' ;
   constructor(public _route: ActivatedRoute, public groupService: GroupServiceService, public route: Router, public toastr: ToastrManager) { }
 
   ngOnInit() {
@@ -34,12 +38,33 @@ this.groupService.getSingleGroup(groupId).subscribe(
    console.log(typeof(this.userArray[0]));
    this.usersList = JSON.parse(this.userArray[0]); // usersList
    console.log(this.usersList);
+   for(let x of this.usersList){
+   this.userNames.push(x.firstName);
+   }
+   console.log(this.userNames);
   },
   (err)=>{
   console.log(err.message);
   }
 )
   }
+public createExpense = ()=>{
+let groupId = this._route.snapshot.paramMap.get('groupId');
+  let data = {
+    groupId: groupId,
+    groupName: this.newExpenseName,
+    amount: this.newAmount,
+    payer: this.payerName
+  }
+  console.log(data);
+  //this.route.navigate(['/gsingle']);
+  $('.modal').removeClass('in');
+  $('.modal').attr("aria-hidden","true");
+  $('.modal').css("display", "none");
+  $('.modal-backdrop').remove();
+  $('body').removeClass('modal-open');
+}
+
 
 
   public deleteGroup = () =>{

@@ -26,7 +26,7 @@
 <div style="text-align:center" *ngIf="recordsArray.length>0">
   <div *ngFor = 'let record of recordsArray'  (click)="removeRecords(record)" class="col-md-4">
       <div class="list-group">
-        <div class='idcheck' >
+        <div class='idcheck' *ngIf=' record.userId != activeUserId '>
       <div  type="button" class="list-group-item list-group-item-action" >
         {{record.firstName}} 
       </div>

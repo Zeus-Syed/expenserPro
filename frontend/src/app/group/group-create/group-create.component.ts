@@ -32,7 +32,14 @@ console.log(this.usersList);
 
   public createGroup = () =>{
 
-    
+    if(!this.newGroupName){
+this.toastr.warningToastr("ENTER GROUP NAME!!!")
+    }
+    else if(this.usersList.length<= 1){
+      this.toastr.warningToastr("Select Users!!")
+    }
+
+    else{
     let data = {
       groupName: this.newGroupName,
       usersList: this.usersList
@@ -47,7 +54,7 @@ console.log(this.usersList);
 
               setTimeout(()=>{
               this.goToGroupView();
-              }, 2000);
+              }, 1000);
             }
       },
       (err)=>{
@@ -55,6 +62,8 @@ console.log(this.usersList);
            console.log(err.message);
       }
     )
+
+  }
   }
 
 }

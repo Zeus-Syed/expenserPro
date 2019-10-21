@@ -43,7 +43,6 @@ public localInfo;
     let defaultRecord = {
       userId: this.localInfo.userId,
     firstName: this.localInfo.firstName
-  
   }
   this.recordsArray.push(defaultRecord);
 
