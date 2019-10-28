@@ -8,6 +8,7 @@ const time = require('../libs/timeLib');
 const shortid = require('shortid');
 
 let groupCreate = (req, res) => {
+  //console.log("CREATED SUCCESSFULLY");
     groupModel.findOne({ groupName: req.body.groupName }).exec((err, retrievedDetails) => {
         if (err) {
             logger.error(err.message, 'GroupController: groupcreate', 10);
@@ -15,8 +16,8 @@ let groupCreate = (req, res) => {
             res.send(apiResponse);
         }
         else if (check.isEmpty(retrievedDetails)) {
-            
-
+           // let x = JSON.parse(req.params.stringUserList);
+         // console.log(req.body);
             let newGroup = new groupModel({
                 groupName: req.body.groupName,
                 groupId: shortid.generate(),

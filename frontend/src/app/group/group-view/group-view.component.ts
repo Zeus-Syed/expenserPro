@@ -3,7 +3,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { GroupServiceService } from '../group-service.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/user.service';
-import { userInfo } from 'os';
+
 
 
 @Component({
@@ -17,7 +17,7 @@ export class GroupViewComponent implements OnInit {
   public emptyArray = [];
   public temp;
   public temp2;
-  public groupsArray;
+  public groupsArray:Array<object>=[];
   public tempGroupsArray;
   constructor(public toastr: ToastrModule,
     public groupService: GroupServiceService,
@@ -25,31 +25,34 @@ export class GroupViewComponent implements OnInit {
 
   ngOnInit() {
     this.userInfo = this.userService.getUserInfoFromLocalStorage();
+   console.log(this.userInfo.userId);
     this.groupService.getAllGroups().subscribe(
       (data) => {
         this.tempGroupsArray = data['data'];
         console.log(this.tempGroupsArray);
 
         for (let x of this.tempGroupsArray) {
-          var flag;
+          let flag;
           this.temp = Object.values(x);
 
           this.temp2 = JSON.parse(this.temp[0]);
 
-
+   //console.log(this.temp2);
           flag = 0;
           for (let y of this.temp2) {
 
-            if (y.userId == this.userInfo.userId) {
+            if (y.userId === this.userInfo.userId) {
               flag = 1;
-              console.log(flag);
             }
+            
           }
-
-          if (flag == 0) {
-            this.tempGroupsArray.splice(x, 1);
+          if(flag == 1){
+           this.groupsArray.push(x);
           }
-
+        // console.log(this.groupsArray);
+        //  this.tempGroupsArray.splice(x.groupId,1);
+//console.log(x);
+         
         }
 
 

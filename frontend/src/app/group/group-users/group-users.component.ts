@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { UserService } from 'src/app/user.service';
 import { Router } from '@angular/router';
-import {Cookie} from 'ng2-cookies';
+import { Cookie } from 'ng2-cookies';
 
 @Component({
   selector: 'app-group-users',
@@ -10,80 +10,96 @@ import {Cookie} from 'ng2-cookies';
   styleUrls: ['./group-users.component.css']
 })
 export class GroupUsersComponent implements OnInit {
-public usersArray;
-public recordsArray: Array<object> = [];
-public localArray: Array<object> = [];
-public activeUserId = Cookie.get('UserId');
-public localInfo;
-  constructor(public toastr: ToastrManager, public userService: UserService,public router: Router) { }
+  public usersArray;
+  public recordsArray: Array<object> = [];
+  public localArray: Array<object> = [];
+  public activeUserId = Cookie.get('UserId');
+  public localInfo;
+  constructor(public toastr: ToastrManager, public userService: UserService, public router: Router) { }
 
 
- 
+
 
   ngOnInit() {
 
-   
+
 
     this.usersArray = this.userService.getAllUsers().subscribe(
-      (data)=>{
-         this.usersArray = data['data'];
+      (data) => {
+        this.usersArray = data['data'];
       },
-      (err)=>{
-       console.log("some error");
+      (err) => {
+        console.log("some error");
       }
     )
 
+
+
+
   }
 
-@Output() listEvent = new EventEmitter();
-  public sendUsersList = () =>{
+  @Output() listEvent = new EventEmitter();
+  public sendUsersList = () => {
+
 
     this.localInfo = this.userService.getUserInfoFromLocalStorage();
 
     let defaultRecord = {
       userId: this.localInfo.userId,
-    firstName: this.localInfo.firstName
-  }
-  this.recordsArray.push(defaultRecord);
+      firstName: this.localInfo.firstName
+    }
+    console.log(defaultRecord);
 
-if(this.recordsArray.length <= 1){
-  this.toastr.warningToastr("No Users Selected!!!");
+   
+let flag = 0;
+    for (let x of this.recordsArray) {
+      if (defaultRecord.userId === x.userId) {
+        flag = 1; break;
+      }
+    }
+
+if(flag==0){
+  this.recordsArray.push(defaultRecord);
+}
+if(flag==1){
+ // this.toastr.warningToastr("Click");
 }
 
-this.listEvent.emit(this.recordsArray);
-
-//this.router.navigate(['/gcreate']);
-  }
-
-  public storeUsers =(userId, firstName)=>{
-
-
-    /*if(localStorage.getItem('records') == null){
-      var locaArray = [];
+    if (this.recordsArray.length <= 1) {
+      this.toastr.warningToastr("No Users Selected!!!");
     }
-    else{
-      locaArray = JSON.parse(localStorage.getItem('records'));
-    }*/
-    
-  let record = {
-    userId: userId,
-    firstName: firstName
-  }
-  //locaArray.push(record);
-  //localStorage.setItem('records', JSON.stringify(locaArray));
-
-  //this.localArray = JSON.parse(localStorage.getItem('records'));
-
-  this.recordsArray.push(record);
-  console.log(this.recordsArray);
+    this.listEvent.emit(this.recordsArray); 
   }
 
-  public removeRecords=(record)=>{
+  public storeUsers = (userId, firstName) => {
+    let record = {
+      userId: userId,
+      firstName: firstName
+    }
+    let flag = 0;
+    if (this.recordsArray == null) {
+      this.recordsArray.push(record);
+    }
+    else {
+      for (let x of this.recordsArray) {
+        if (record.userId === x.userId) {
+          flag = 1; break;
+        }
+      }
+    }
+    if (flag == 0) {
+      this.recordsArray.push(record);
+    }
+    if (flag == 1) {
+      this.toastr.warningToastr('User Already selected!!');
+    }
 
+    console.log(this.recordsArray);
+  }
 
-
-this.recordsArray.splice(record,1);
-console.log(this.recordsArray);
+  public removeRecords = (record) => {
+    this.recordsArray.splice(record, 1);
+    console.log(this.recordsArray);
   }
 
 }

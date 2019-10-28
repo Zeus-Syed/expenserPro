@@ -35,4 +35,20 @@ let data = {}
   return this.http.post(`${this.url}/group/delete/${groupId}`,data);
 }
 
+
+public createExpense(data):Observable<any>{
+
+  const params = new HttpParams()
+  .set('groupId', data.groupId)
+  .set('expName', data.expName )
+  .set('amount', data.amount )
+  .set('payerName', data.payerName )
+  .set('payerId', data.payerId)
+  return this.http.post(`${this.url}/expenses/create`, params);
+}
+
+public getAllExpenses(groupId):Observable<any>{
+
+  return this.http.get(`${this.url}/expenses/view/${groupId}`);
+}
 }

@@ -36,10 +36,11 @@ console.log(this.usersList);
 this.toastr.warningToastr("ENTER GROUP NAME!!!")
     }
     else if(this.usersList.length<= 1){
-      this.toastr.warningToastr("Select Users!!")
+      this.toastr.warningToastr("Select Users and PRESS 'CONFIRM'!!");
     }
 
     else{
+      
     let data = {
       groupName: this.newGroupName,
       usersList: this.usersList
