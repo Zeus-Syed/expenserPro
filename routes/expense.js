@@ -10,6 +10,10 @@ module.exports.setRouter = (app) =>{
 
     app.get( '/expenses/view/:groupId', expenseController.getAllexpenses);
 
+    app.get( '/expenses/single/:expId', expenseController.getSingleExpense);
 
+    app.post( '/expenses/delete/:expId', expenseController.deleteExpense);
+
+    app.put( '/expenses/edit/:expId', expenseController.editExpense);
 
 }

@@ -1,0 +1,15 @@
+<div class="container">
+<nav class="navbar navbar-light bg-dark nav-tabs" >
+    <a [routerLink]="['/group']" ><h3>Groups</h3></a>
+    <a class="nav-link active" [routerLink]="['/history']" ><h3>History</h3></a>
+  </nav>
+
+<br>
+<div *ngIf='history'>
+<div class="list-group" class="col-md-12">
+  <li class="list-group-item" *ngFor='let x of history'>{{x.details}}</li>
+</div>
+
+</div>
+
+</div>

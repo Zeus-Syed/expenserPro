@@ -14,6 +14,9 @@ const expenseSchema = new Schema({
     groupId : {
         type: String,
     },
+    expAdder:{
+        type: String
+    },
     payerName : {
 type: String
     },

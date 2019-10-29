@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class GroupServiceService {
  private url = 'http://localhost:3000';
+
+ public userNames;
   constructor(public http: HttpClient) { }
 
   //public getGroups():Observable<any>{
@@ -44,6 +46,7 @@ public createExpense(data):Observable<any>{
   .set('amount', data.amount )
   .set('payerName', data.payerName )
   .set('payerId', data.payerId)
+  .set('expAdder', data.expAdder)
   return this.http.post(`${this.url}/expenses/create`, params);
 }
 
@@ -51,4 +54,35 @@ public getAllExpenses(groupId):Observable<any>{
 
   return this.http.get(`${this.url}/expenses/view/${groupId}`);
 }
+
+public getSingleExpense(expId):Observable<any>{
+  return this.http.get(`${this.url}/expenses/single/${expId}`);
+}
+
+public setUserNames = (userNames) =>{
+this.userNames = userNames;
+}
+public getUserNames = () =>{
+  return this.userNames;
+}
+public deleteExpense = (expId) =>{
+  let data = {};
+  return this.http.post(`${this.url}/expenses/delete/${expId}`, data);
+}
+
+public editExpense = (expId, data)=>{
+
+  return this.http.put(`${this.url}/expenses/edit/${expId}`, data);
+}
+
+public createHistory = (data) =>{
+  
+   return this.http.post(`${this.url}/history/create`, data); 
+}
+
+public getAllHistory = () =>{
+  
+  return this.http.get(`${this.url}/history/view`);
+}
+
 }

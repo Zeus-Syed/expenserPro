@@ -23,6 +23,7 @@ let createExpense = (req, res) => {
                   expId: shortid.generate(),
                   payerName: req.body.payerName,
                   payerId: req.body.payerId,
+                  expAdder: req.body.expAdder,
                   amount: req.body.amount,
                   createdOn: time.now()
               })
@@ -73,9 +74,81 @@ let createExpense = (req, res) => {
 })
 }
 
+let getSingleExpense = (req, res) =>{
+  expenseModel.findOne({expId: req.params.expId})
+.select('-__v -_id')
+.lean()
+.exec((err, fetchedDetails)=>{
+if(err){
+  logger.error('Failed to fetch a expense', 'expenseController: getSingleExpense()', 10)
+  let apiResponse = response.generate(true, 'Failed to fetch expense', 500, null)
+  res.send(apiResponse);
+}
+else if(check.isEmpty(fetchedDetails)){
+  logger.error('No expenses found', 'expenseController: getSingleExpense()', 10)
+  let apiResponse = response.generate(true, 'NO expense found', 404, null)
+  res.send(apiResponse);
+}
+else{
+  logger.info('Expense found', 'expenseController: getSingleExpense()', 10)
+  let apiResponse = response.generate(false, 'expense Found!!!', 200, fetchedDetails)
+  res.send(apiResponse);
+}
+})
+}
+
+let deleteExpense = (req, res) => {
+  expenseModel.remove({'expId':req.params.expId}).exec((err, fetchedDetails)=>{
+    if(err){
+      logger.error('Failed to delete expense', 'expenseController: deleteExpense()', 10)
+      let apiResponse = response.generate(true, 'Failed to delete expense', 500, null)
+      res.send(apiResponse);
+    }
+    else if(check.isEmpty(fetchedDetails)){
+      logger.error('NOT DELETED', 'expenseController: deleteExpense()', 10)
+      let apiResponse = response.generate(true, 'NOT DELETED', 404, null)
+      res.send(apiResponse);
+    }
+    else{
+      logger.info('Deleted Successfully!!', 'expenseController: deleteExpense()', 10);
+      let apiResponse = response.generate(false, 'Deleted Successfully!!', 200, fetchedDetails);
+      res.send(apiResponse);
+    }
+  })
+}
+
+let editExpense = (req, res) => {
+  let options = req.body;
+console.log(options);
+expenseModel.update({'expId': req.params.expId}, options, {multi: true}).exec((err, result) => {
+  if(err){
+     
+      logger.error(err.message, 'expenseController-->editExpense',7)
+      let apiResponse = response.generate(true,"Failed to find expense details",500,null);
+      res.send(apiResponse)
+  }
+  else if(check.isEmpty(result)){
+        
+         logger.info('NO EXPENSE FOUND','expenseController-->editExpense',5);
+         let apiResponse = response.generate(true,"NO EXPENSE FOUND",404,null);
+         res.send(apiResponse)
+  }
+  else {
+     
+      logger.info('EXPENSE EDITED SUCCESSSFULY!!','expenseController-->editExpense',5);
+      let apiResponse = response.generate(false,"BLOG EDITED!!!",200,result);
+      res.send(apiResponse)
+     }
+})
+
+}
+
   module.exports = {
       createExpense: createExpense,
-      getAllexpenses: getAllexpenses
+      getAllexpenses: getAllexpenses,
+      getSingleExpense: getSingleExpense,
+      deleteExpense: deleteExpense,
+      editExpense: editExpense
   }
 
   

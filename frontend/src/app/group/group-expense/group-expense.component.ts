@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupServiceService } from '../group-service.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { UserService } from 'src/app/user.service';
+import { Location } from '@angular/common';
 //import $ from "jquery";
 
 @Component({
@@ -11,6 +12,7 @@ import { UserService } from 'src/app/user.service';
   styleUrls: ['./group-expense.component.css']
 })
 export class GroupExpenseComponent implements OnInit {
+  public history;
   public groupSingle;
   public temp;
   public userArray;
@@ -21,8 +23,9 @@ export class GroupExpenseComponent implements OnInit {
   public payerName: Object;
   public temp1;
   public expenses;
+  public pendingDetails:Array<Object> = [];
   constructor(public _route: ActivatedRoute, public groupService: GroupServiceService,
-    public route: Router, public toastr: ToastrManager, public userService: UserService) { }
+    public route: Router, public toastr: ToastrManager, public userService: UserService, public location: Location) { }
 
   ngOnInit() {
 
@@ -38,7 +41,7 @@ export class GroupExpenseComponent implements OnInit {
 
         this.groupSingle = Object.entries(this.temp).map((e) => ({ [e[0]]: e[1] }));
         console.log(this.groupSingle);
-        //console.log(this.groupSingle[0][0]);
+  
 
         this.userArray = Object.values(this.temp);
         console.log(this.userArray);
@@ -66,6 +69,8 @@ export class GroupExpenseComponent implements OnInit {
   public createExpense = () => {
 
     let groupId = this._route.snapshot.paramMap.get('groupId');
+    let temp = this.userService.getUserInfoFromLocalStorage();
+    let expAdder = temp.firstName;
     console.log(this.payerName);
     //let payerdetails = Object.assign(this.payerName);
     let pName = this.payerName.firstName;
@@ -76,7 +81,8 @@ export class GroupExpenseComponent implements OnInit {
       expName: this.newExpenseName,
       amount: this.newAmount,
       payerName: pName,
-      payerId: payerId
+      payerId: payerId,
+      expAdder: expAdder
     }
     console.log(data);
     //this.route.navigate(['/gsingle']);
@@ -91,9 +97,23 @@ export class GroupExpenseComponent implements OnInit {
       (data) => {
         if (data.status == 200) {
           this.toastr.successToastr("Expense created successfully!!");
-          this.getAllExpenses();
+  this.history = data['data'];
 
+  
+      let history = `${expAdder} added ${this.newExpenseName} in ${this.temp.groupName}`;
 
+      let historyDetails = {
+        details: history,
+        createdOn: this.history.createdOn
+      }
+this.groupService.createHistory(historyDetails).subscribe(
+  (data)=>{
+    this.toastr.successToastr("History updated!!");
+  }
+)
+  
+  this.getAllExpenses();
+        
         }
 
 
@@ -105,6 +125,10 @@ export class GroupExpenseComponent implements OnInit {
       }
     )
 
+  }
+
+  public sendNames=()=>{
+    this.groupService.setUserNames(this.userNames);
   }
 
   public getAllExpenses = () => {
@@ -173,6 +197,10 @@ export class GroupExpenseComponent implements OnInit {
 
   }
 
+  public goBack = () =>{
+    this.location.back();
+  }
+
   public amountPending = (res) => {
     const users = Object.keys(res);
     const amountPaid = Object.values(res);
@@ -184,13 +212,21 @@ export class GroupExpenseComponent implements OnInit {
     let i = 0;
     let j = sortedPeople.length - 1;
     let debt;
-
+    this.pendingDetails = [];
     while (i < j) {
       debt = Math.min(-(sortedValuesPaid[i]), sortedValuesPaid[j]);
       sortedValuesPaid[i] += debt;
       sortedValuesPaid[j] -= debt;
   
       console.log(`${sortedPeople[i]} owes ${sortedPeople[j]} Rs:${debt}`);
+
+         let data ={
+           payer: sortedPeople[i],
+           receiver: sortedPeople[j],
+           debt: debt.toFixed(2)
+         }
+         this.pendingDetails.push(data);
+         console.log(this.pendingDetails);
   
       if (sortedValuesPaid[i] === 0) {
         i++;

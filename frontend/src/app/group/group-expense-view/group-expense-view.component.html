@@ -1,28 +1,35 @@
-<div class="container" style="text-align: center;">
-  <div *ngIf='temp'>
- <h2>{{temp.groupName}}</h2> 
+<div class="container" style="text-align:center">
+        <nav class="navbar navbar-light bg-light" *ngIf='expense'>
+                <span class="navbar-brand mb-0 h1">{{expense.expName}} | &#x20B9;{{expense.amount}} paid by {{expense.payerName}}</span>
+                <span class="navbar-text-dark">
+                        Added by {{expense.expAdder}} on {{expense.createdOn | date}}
+                      </span>
+              </nav>
+<br>
+<div style="text-align:center" *ngIf="userNames && expense">
+    <div *ngFor = 'let user of userNames'  class="col-md-12">
+      
+        <div class="list-group">
+        <li class="list-group-item "> 
+          {{user}} owes {{mean1}}
+        </li>
+      </div>
 </div>
-<div *ngIf='pendingDetails'>
-
-<div class="justify-content-md-center" *ngFor='let x of pendingDetails' >
-<ul class="list-group list-group-flush">
-    <li class="list-group-item">{{x.payer}} owes {{x.receiver}} &#x20B9;{{x.debt}}</li>
-  </ul>
-</div>
-
-</div>
-<div class="row">
-  <div class="col">
-<button type="button" (click)='deleteGroup()' class="btn btn-warning">Delete this Group</button>
-</div>
-<div class="col">
-    <button type="button" (click)='goBack()' class="btn btn-dark">Go Back</button>
+      </div>
+    <br>
+    <div class="row">
+      <div class="col">
+      <button type="button"  (click)='deleteExpense()' class='btn btn-primary'>Delete</button>
     </div>
-<div class="col">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-         data-whatever="@mdo">Create expense</button>
-        </div>
+    <div class="col">
+        <button type="button"  (click)='goBack()' class='btn btn-dark'>Go Back</button>
+      </div>
+    <div class="col">
+        <button type="button"  data-toggle="modal" data-target="#exampleModal" class='btn btn-success'>Edit</button>
+      </div>
+    </div>
 </div>
+
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" 
@@ -30,13 +37,13 @@ aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Expense</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Expense</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form #expenseCreateForm="ngForm" (ngSubmit)="createExpense()">
+        <form #expenseEditForm="ngForm" (ngSubmit)="editExpense()">
           <div class="form-group">
             <label for="expense-name" class="col-form-label">Expense Name:</label>
             <input type="text" class="form-control" [(ngModel)]='newExpenseName' 
@@ -64,28 +71,11 @@ aria-hidden="true">
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" [disabled]='!expenseCreateForm.form.valid' >Submit Expense</button>
+          <button type="submit" class="btn btn-primary" [disabled]='!expenseEditForm.form.valid' >Submit Expense</button>
         </div>
         </form>
       </div>
       
     </div>
   </div>
-</div>
-<br>
-<div style="text-align:center" *ngIf="expenses">
-  <div *ngFor = 'let expense of expenses'  class="col-md-12">
-    
-      <div class="list-group">
-      <button type="button" class="list-group-item list-group-item-action" (click)='sendNames()' 
-      [routerLink]="['/esingle',expense.expId]"> 
-        <h5>{{expense.expName}}</h5>
-        <small>{{expense.payerName}} paid {{expense.amount}}</small>
-      </button>
-    </div>
-  
-    </div>
-  
-  </div>
-
 </div>
