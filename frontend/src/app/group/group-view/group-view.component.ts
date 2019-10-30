@@ -3,7 +3,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { GroupServiceService } from '../group-service.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/user.service';
-import { userInfo } from 'os';
+
 
 
 @Component({

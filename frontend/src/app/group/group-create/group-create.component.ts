@@ -12,6 +12,7 @@ import { GroupServiceService } from '../group-service.service';
 export class GroupCreateComponent implements OnInit {
 
 public newGroupName;
+public sendList;
  public usersList:Array<object> =[];
   constructor(public toastr: ToastrManager, public router: Router, public groupService: GroupServiceService) { }
 
@@ -40,6 +41,8 @@ this.toastr.warningToastr("ENTER GROUP NAME!!!")
     }
 
     else{
+     // let x = JSON.stringify(this.usersList)
+     // this.sendList.push(x);
     let data = {
       groupName: this.newGroupName,
       usersList: this.usersList

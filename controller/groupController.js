@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('../models/Group');
+const listModel = mongoose.model('List');
 const groupModel = mongoose.model('Group');
 const logger = require('../libs/loggerLib');
 const response = require('../libs/responseLib');
@@ -8,6 +9,7 @@ const time = require('../libs/timeLib');
 const shortid = require('shortid');
 
 let groupCreate = (req, res) => {
+  console.log(req.body);
     groupModel.findOne({ groupName: req.body.groupName }).exec((err, retrievedDetails) => {
         if (err) {
             logger.error(err.message, 'GroupController: groupcreate', 10);
@@ -16,13 +18,15 @@ let groupCreate = (req, res) => {
         }
         else if (check.isEmpty(retrievedDetails)) {
             
-
+      
             let newGroup = new groupModel({
-                groupName: req.body.groupName,
+               groupName: req.body.groupName,
                 groupId: shortid.generate(),
-                userList: req.body.userList,
+              // userList: req.body.userList,
                 createdOn: time.now()
             })
+           // let list = JSON.parse(req.body.userList);
+            //newGroup.userList.push(req.body.userList);
             newGroup.save((err, result) => {
                 if (err) {
                     logger.error(err.message, 'GroupController: groupcreate', 10);

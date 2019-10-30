@@ -3,6 +3,11 @@ const time = require('../libs/timeLib')
 const Schema = mongoose.Schema;
 
 
+const listSchema  = new Schema({
+    userId: String,
+    firstName: String
+})
+
 const GroupSchema = new Schema({
   groupName: {
       type: String
@@ -11,9 +16,8 @@ const GroupSchema = new Schema({
       type: String,
       unique: true
   },
-  userList: {
-      type: Array
-  },
+  userList: [listSchema],
+
   createdOn: {
       type: Date,
       default: time.now()
@@ -21,3 +25,4 @@ const GroupSchema = new Schema({
 })
 
 mongoose.model('Group', GroupSchema);
+mongoose.model('List', listSchema);
