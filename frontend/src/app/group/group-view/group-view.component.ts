@@ -3,28 +3,34 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { GroupServiceService } from '../group-service.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/user.service';
+import { SocketService } from 'src/app/socket.service';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 
 
 @Component({
   selector: 'app-group-view',
   templateUrl: './group-view.component.html',
-  styleUrls: ['./group-view.component.css']
+  styleUrls: ['./group-view.component.css'],
+  
 })
 export class GroupViewComponent implements OnInit {
-  //public groupName;
+  public authToken;
   public userInfo;
   public emptyArray = [];
   public temp;
   public temp2;
   public groupsArray:Array<object>=[];
   public tempGroupsArray;
+  public onlineUsers = [];
   constructor(public toastr: ToastrModule,
     public groupService: GroupServiceService,
-    public router: Router, public userService: UserService) { }
+    public router: Router, public userService: UserService,
+     public socketService: SocketService) { }
 
   ngOnInit() {
     this.userInfo = this.userService.getUserInfoFromLocalStorage();
+    this.authToken = Cookie.get('authToken');
    console.log(this.userInfo.userId);
     this.groupService.getAllGroups().subscribe(
       (data) => {
@@ -61,8 +67,28 @@ export class GroupViewComponent implements OnInit {
         console.log("some error");
       }
     )
-
+this.verifyUser();
   }
+
+  public verifyUser =()=>{
+this.socketService.verifyUser().subscribe(
+  (data)=>{
+   this.socketService.setUser(this.authToken);
+   this.getOnlineUsersList();
+  }
+)
+  }
+
+public getOnlineUsersList=()=>{
+
+  this.socketService.onlineUserList().subscribe(
+    (usersList)=>{
+      this.onlineUsers = [];
+        this.onlineUsers = usersList;
+        console.log(this.onlineUsers);
+    }
+  )
+}
 
   public goToCreateGroup = () => {
     this.router.navigate(['/gcreate']);

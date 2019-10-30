@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { GroupExpenseComponent } from './group-expense/group-expense.component';
 import { GroupExpenseViewComponent } from './group-expense-view/group-expense-view.component';
 import { ExpenseHistoryComponent } from './expense-history/expense-history.component';
+import { GroupRouteGuardService } from './group-route-guard.service';
+import { SocketService } from '../socket.service';
 
 
 
@@ -21,14 +23,14 @@ import { ExpenseHistoryComponent } from './expense-history/expense-history.compo
     FormsModule,
     ToastrModule.forRoot(),
     RouterModule.forChild([
-      {path: 'group', component: GroupViewComponent},
-      {path: 'gcreate', component: GroupCreateComponent},
+      {path: 'group', component: GroupViewComponent, canActivate:[GroupRouteGuardService]},
+      {path: 'gcreate', component: GroupCreateComponent, canActivate:[GroupRouteGuardService]},
       {path: 'gusers', component: GroupUsersComponent},
-      {path: 'gsingle/:groupId', component: GroupExpenseComponent},
-      {path: 'esingle/:expId', component: GroupExpenseViewComponent},
-      {path: 'history', component: ExpenseHistoryComponent}
+      {path: 'gsingle/:groupId', component: GroupExpenseComponent, canActivate:[GroupRouteGuardService]},
+      {path: 'esingle/:expId', component: GroupExpenseViewComponent, canActivate:[GroupRouteGuardService]},
+      {path: 'history', component: ExpenseHistoryComponent, canActivate:[GroupRouteGuardService]}
     ])
   ],
-  providers: [GroupServiceService]
+  providers: [GroupServiceService, SocketService]
 })
 export class GroupModule { }

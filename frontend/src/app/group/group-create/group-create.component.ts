@@ -41,12 +41,7 @@ this.toastr.warningToastr("ENTER GROUP NAME!!!")
     }
 
     else{
-<<<<<<< HEAD
-     // let x = JSON.stringify(this.usersList)
-     // this.sendList.push(x);
-=======
       
->>>>>>> 46cbfb91d54f96eb2b354a91a04cdb25d7a9011f
     let data = {
       groupName: this.newGroupName,
       usersList: this.usersList

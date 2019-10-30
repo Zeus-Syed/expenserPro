@@ -25,6 +25,9 @@ server.listen(appConfig.port);
 server.on('error',onError);
 server.on('listening', onListening);
 
+const socketLib = require('./libs/socketLib');
+socketLib.setServer(server);
+
 function onError(error){
     if(error.syscall !== 'listen'){
         //console.log("some error");
