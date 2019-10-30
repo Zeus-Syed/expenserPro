@@ -37,12 +37,16 @@ console.log(this.usersList);
 this.toastr.warningToastr("ENTER GROUP NAME!!!")
     }
     else if(this.usersList.length<= 1){
-      this.toastr.warningToastr("Select Users!!")
+      this.toastr.warningToastr("Select Users and PRESS 'CONFIRM'!!");
     }
 
     else{
+<<<<<<< HEAD
      // let x = JSON.stringify(this.usersList)
      // this.sendList.push(x);
+=======
+      
+>>>>>>> 46cbfb91d54f96eb2b354a91a04cdb25d7a9011f
     let data = {
       groupName: this.newGroupName,
       usersList: this.usersList
