@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from '@angular/router';
 import { GroupServiceService } from '../group-service.service';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-group-create',
@@ -14,7 +14,8 @@ export class GroupCreateComponent implements OnInit {
 public newGroupName;
 public sendList;
  public usersList:Array<object> =[];
-  constructor(public toastr: ToastrManager, public router: Router, public groupService: GroupServiceService) { }
+  constructor(public toastr: ToastrManager, public router: Router, 
+    public groupService: GroupServiceService, public location: Location) { }
 
   ngOnInit() {
   }
@@ -29,6 +30,9 @@ console.log(this.usersList);
   }
   public goToGroupView = () =>{
     this.router.navigate(['/group']);
+  }
+  public goBack=() =>{
+    this.location.back();
   }
 
   public createGroup = () =>{

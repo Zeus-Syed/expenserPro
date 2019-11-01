@@ -59,12 +59,15 @@ module.exports.setRouter = (app) =>{
     */
 
     // auth token params: userId.
+    app.put(`${baseUrl}/reset`, userController.resetPassword);
 
     app.post(`${baseUrl}/logout`, auth.isAuthenticated, userController.logOut);
 
     app.get( `${baseUrl}/view/all`, userController.getAllUsers);
 
-    app.get( `${baseUrl}/:userId/details`,auth.isAuthenticated, userController.getSingleUser);
+    app.get( `${baseUrl}/:userId/details`, userController.getSingleUser);
+
+    app.get( `${baseUrl}/details/:email`, userController.getSingleUserByEmail);
 
     app.put( `${baseUrl}/:userId/edit`,auth.isAuthenticated, userController.editUser);
 

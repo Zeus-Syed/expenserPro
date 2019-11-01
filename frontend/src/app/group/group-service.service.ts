@@ -9,7 +9,9 @@ export class GroupServiceService {
  private url = 'http://localhost:3000';
 
  public userNames;
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+    console.log('Group service called');
+   }
 
   //public getGroups():Observable<any>{
        
@@ -80,9 +82,9 @@ public createHistory = (data) =>{
    return this.http.post(`${this.url}/history/create`, data); 
 }
 
-public getAllHistory = () =>{
+public getAllHistory = (skip) =>{
   
-  return this.http.get(`${this.url}/history/view`);
+  return this.http.get(`${this.url}/history/view?skip=${skip}`);
 }
 
 }

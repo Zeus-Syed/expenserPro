@@ -35,7 +35,9 @@ let createHistory = (req, res) =>{
 let getAllHistory = (req, res) =>{
     historyModel.find()
 .select('-__v -_id')
+.skip(parseInt(req.query.skip) || 0)
 .lean()
+.limit(10)
 .exec((err, fetchedDetails)=>{
   if(err){
     logger.error('Failed to fetch all histories', 'historyController: getAllHistory()', 10)

@@ -12,6 +12,69 @@ const token = require('../libs/tokenLib')
 const passwordLib = require('../libs/generatePasswordLib')
 const AuthModel = mongoose.model('Auth');
 
+let resetPassword = (req, res)=>{
+
+  /*UserModel.findOne({email:req.body.email})
+  .select('-password -__v -_id')
+  .lean()
+  .exec((err, fetchedDetails)=>{
+    if(err){
+      logger.error('Failed to fetch all users', 'userController: getSingleUser()', 10)
+      let apiResponse = response.generate(true, 'Failed to fetch users', 500, null)
+      res.send(apiResponse);
+    }
+    else if(check.isEmpty(fetchedDetails)){
+      logger.error('No Users found', 'userController: getSingleUser()', 10)
+      let apiResponse = response.generate(true, 'NO user found', 404, null)
+      res.send(apiResponse);
+    }
+    else{
+     
+     fetchedDetails.password = passwordLib.hashPassword(req.body.password);
+     //fetchedDetails.markModified('password');
+     fetchedDetails.visits.$inc();
+     fetchedDetails.save((err, details)=>{
+       if(err){
+        logger.error('Failed to fetch all users', 'userController: getSingleUser()', 10)
+        let apiResponse = response.generate(true, 'Failed to fetch users', 500, null)
+        res.send(apiResponse);
+       }
+       else{
+        logger.info('Users found', 'userController: getSingleUser()', 10);
+        let apiResponse = response.generate(false, 'User Found!!!', 200, details);
+        res.send(apiResponse);
+       }
+     }) 
+
+      
+    }
+  })*/
+   password = passwordLib.hashPassword(req.body.password);
+console.log(typeof(password));
+  let Option = {
+    password
+  }
+  console.log(Option);
+  UserModel.updateOne({email:req.body.email}, {$set: Option},{multi: true}).exec((err, fetchedDetails)=>{
+    if(err){
+      logger.error('Failed to fetch all users', 'userController: editUser()', 10)
+      let apiResponse = response.generate(true, 'Failed to edit users', 500, null)
+      res.send(apiResponse);
+    }
+    else if(check.isEmpty(fetchedDetails)){
+      logger.info('No Users found', 'userController: editUser()', 10)
+      let apiResponse = response.generate(true, 'NO users found', 404, null)
+      res.send(apiResponse);
+    }
+    else{
+      logger.info('Users edited Succesfully', 'userController: editUser()', 10);
+      let apiResponse = response.generate(false, 'Edited Successfully!!!', 200, fetchedDetails);
+      res.send(apiResponse);
+    }
+  })
+
+}
+
 let signUpFunc = (req, res) => {
 
   let validateUserInput = () => {
@@ -295,6 +358,29 @@ let getSingleUser = (req, res) =>{
   })
 }
 
+let getSingleUserByEmail = (req, res) =>{
+  UserModel.findOne({'email':req.params.email})
+  .select('-password -__v -_id')
+  .lean()
+  .exec((err, fetchedDetails)=>{
+    if(err){
+      logger.error('Failed to fetch all users', 'userController: getSingleUser()', 10)
+      let apiResponse = response.generate(true, 'Failed to fetch users', 500, null)
+      res.send(apiResponse);
+    }
+    else if(check.isEmpty(fetchedDetails)){
+      logger.error('No Users found', 'userController: getSingleUser()', 10)
+      let apiResponse = response.generate(true, 'NO user found', 404, null)
+      res.send(apiResponse);
+    }
+    else{
+      logger.info('Users found', 'userController: getSingleUser()', 10);
+      let apiResponse = response.generate(false, 'User Found!!!', 200, fetchedDetails);
+      res.send(apiResponse);
+    }
+  })
+}
+
 let editUser = (req, res) =>{
   let Option = req.body;
   UserModel.update({'userId':req.params.userId}, Option).exec((err, fetchedDetails)=>{
@@ -350,7 +436,7 @@ let logOut = (req, res) => {
     }
     else{
       logger.info('logged out Successfully!!', 'userController: logout()', 10);
-      let apiResponse = response.generate(false, 'Logged out successfully!!', 404, fetchedDetails);
+      let apiResponse = response.generate(false, 'Logged out successfully!!', 200, fetchedDetails);
       res.send(apiResponse);
     }
   })
@@ -363,5 +449,7 @@ module.exports = {
   getAllUsers: getAllUsers,
   getSingleUser: getSingleUser,
   editUser: editUser,
-  deleteUser: deleteUser
+  deleteUser: deleteUser,
+  getSingleUserByEmail: getSingleUserByEmail,
+  resetPassword: resetPassword
 }

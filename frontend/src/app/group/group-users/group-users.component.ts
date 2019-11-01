@@ -98,7 +98,11 @@ if(flag==1){
   }
 
   public removeRecords = (record) => {
-    this.recordsArray.splice(record, 1);
+
+    //this.recordsArray.splice(record, 1);
+    this.recordsArray = this.recordsArray.filter((e)=>{
+      return e.userId !== record.userId
+    })
     console.log(this.recordsArray);
   }
 

@@ -3,6 +3,7 @@
 <div class="container" style="text-align:center">
   <nav class="navbar navbar-light bg-dark nav-tabs" >
     <a class="nav-link active" [routerLink]="['/group']" ><h3>Groups</h3></a>
+    <button type="button" (click)='logOut()' class='btn btn-light'>LogOut</button>
     <a [routerLink]="['/history']" ><h3>History</h3></a>
   </nav>
 
