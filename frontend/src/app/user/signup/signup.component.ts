@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
   import { UserService } from 'src/app/user.service';
 import { Router } from '@angular/router';
 import {ToastrManager} from 'ng6-toastr-notifications';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -14,12 +15,47 @@ public newLastname: String;
 public newEmail: String;
 public newPassword: String;
 public newPhoneNo: String;
-
-
-  constructor(public userService: UserService, public router: Router, public toastr: ToastrManager) { }
+public countryCode = '91-India';
+public phones;
+public names;
+public phoneCode;
+public phoneNames;
+public res = [];
+public res1;
+  constructor(public userService: UserService, public router: Router, 
+    public toastr: ToastrManager, public http: HttpClient) { }
 
   ngOnInit() {
+    this.countryIO();
   }
+
+  public countryIO = ()=>{
+
+    this.http.get('/assets/phone.json').subscribe(
+      (data)=>{
+        this.phones = data;
+        this.phoneCode = Object.values(this.phones);
+      }
+    )
+
+    this.http.get('/assets/names.json').subscribe(
+      (data)=>{
+        this.names = data;
+        this.phoneNames = Object.values(this.names);
+       for(let x in this.phoneNames){
+        this.res1 = this.phoneCode[x].concat('-'+this.phoneNames[x]);
+        this.res.push(this.res1);
+       }
+
+        console.log(this.res);
+      }
+    )
+   
+
+  }
+
+
+
   public goToSignin():any {
     this.router.navigate(['/']);
    }
@@ -46,10 +82,12 @@ public newPhoneNo: String;
              lastName: this.newLastname,
              email: this.newEmail,
              password: this.newPassword,
-             phoneNo: this.newPhoneNo
+             phoneNo: this.newPhoneNo,
+             countryCode: this.countryCode
            }
            this.userService.signupFunction(data).subscribe(
              (apiResponse) =>{
+               console.log(apiResponse);
                              if(apiResponse.status == 200){
                                this.toastr.successToastr("Signup Success!!!");
 

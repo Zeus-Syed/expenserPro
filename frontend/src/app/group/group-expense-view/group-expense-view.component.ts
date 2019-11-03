@@ -4,6 +4,8 @@ import { GroupServiceService } from '../group-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { Location } from '@angular/common';
+import { UserService } from 'src/app/user.service';
+import { SocketService } from 'src/app/socket.service';
 
 @Component({
   selector: 'app-group-expense-view',
@@ -23,11 +25,16 @@ public mean1;
 public newAmount;
 public newExpenseName;
 public payerName;
+public authToken;
+public emails = [];
+public emails1;
+public history;
   constructor(public toastr:ToastrManager, public groupService: GroupServiceService, 
-    public router: Router, public _route: ActivatedRoute, public location: Location) { }
+    public router: Router, public _route: ActivatedRoute, 
+    public location: Location, public userService: UserService, public socketService: SocketService) { }
 
   ngOnInit() {
-   
+   this.authToken = Cookie.get('authToken');
 
     let expId = this._route.snapshot.paramMap.get('expId');
 
@@ -54,7 +61,14 @@ this.groupService.getSingleExpense(expId).subscribe(
         for (let x of this.usersList) {
           
           this.userNames.push(x.firstName);
+          this.userService.getSingleUser(x.userId).subscribe(
+            (data)=>{
+              let y = data.data.email;
+              this.emails.push(y);
+            }
+          )
         }
+        console.log(this.emails);
         console.log(this.userNames);
         console.log(this.expense.amount);
       console.log(this.userNames.length);
@@ -74,12 +88,49 @@ console.log(err.message);
 
 public deleteExpense =()=>{
   console.log("deletion!!");
+  let temp = this.userService.getUserInfoFromLocalStorage();
+  let expAdder = temp.firstName;
   let expId = this._route.snapshot.paramMap.get('expId');
   console.log(expId);
   this.groupService.deleteExpense(expId).subscribe(
     (data)=>{
-       
+               if(data['status']==200){
+                 this.history = data['data'];
+                 console.log(this.history);
                this.toastr.successToastr("Expense deleted Successfully!!");
+
+              let history =`${expAdder} deleted '${this.newExpenseName}' from '${this.temp.groupName}'`;
+
+                 this.socketService.expenseHistory(history);
+
+             this.emails1 = this.emails.join();
+
+             let mail = {
+              from: 'nadeemcool47@gmail.com',
+              to: `${this.emails1}`,
+              subject: 'Expense Deletion',
+              text: `${history}`
+             }
+             console.log(mail);
+      
+             this.userService.sendMail(mail).subscribe(
+               (data)=>{
+                 console.log(data);
+               }
+             )
+
+             let historyDetails = {
+              details: history,
+              createdOn: this.history.createdOn
+            }
+      this.groupService.createHistory(historyDetails).subscribe(
+        (data)=>{
+          this.toastr.successToastr("History updated!!");
+        }
+      )             
+
+
+               }
 
                this.location.back();
          
@@ -93,6 +144,8 @@ public deleteExpense =()=>{
 public editExpense = ()=>{
   let expId = this._route.snapshot.paramMap.get('expId');
   console.log(this.payerName);
+  let temp = this.userService.getUserInfoFromLocalStorage();
+  let expAdder = temp.firstName;
   //let payerdetails = Object.assign(this.payerName);
   let pName = this.payerName.firstName;
   let payerId = this.payerName.userId;
@@ -112,8 +165,40 @@ public editExpense = ()=>{
 
   this.groupService.editExpense(expId, data).subscribe(
     (data)=>{
+      if(data['status']==200){
    this.toastr.successToastr("Expense Edited Successfully!!!");
-      this.location.back();
+      console.log(data);
+          
+      let history =`${expAdder} updated '${this.newExpenseName}' in '${this.temp.groupName}'`;
+
+                 this.socketService.expenseHistory(history);
+                 this.emails1 = this.emails.join();
+                 
+                 let mail = {
+                  from: 'nadeemcool47@gmail.com',
+                  to: `${this.emails1}`,
+                  subject: 'Expense Updation',
+                  text: `${history}`
+                 }
+                 console.log(mail);
+          
+                 this.userService.sendMail(mail).subscribe(
+                   (data)=>{
+                     console.log(data);
+                   }
+                 )
+                 let historyDetails = {
+                  details: history,
+                  
+                }
+          this.groupService.createHistory(historyDetails).subscribe(
+            (data)=>{
+              this.toastr.successToastr("History updated!!");
+            }
+          )             
+
+      }
+   this.location.back();
 
     },
     (err)=>{

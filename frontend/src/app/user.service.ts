@@ -22,6 +22,7 @@ export class UserService {
     .set('phoneNo',data.phoneNo)
     .set('email',data.email)
     .set('password',data.password)
+    .set('countryCode', data.countryCode)
     return this.http.post(this.url+'/users/signup',data);
   }
 
@@ -39,10 +40,9 @@ export class UserService {
     return this.http.post(this.url+'/users/login', data);
   }
 
-  public logOut(): Observable<any> {
-    const params = new HttpParams()
-    .set('authToken',Cookie.get('authToken'))
-    return this.http.post(`${this.url}/users/logout`, params);
+  public logOut(authToken): Observable<any> {
+   let data = {};
+    return this.http.post(`${this.url}/users/logout/${authToken}`, data);
   }
 
   public getAllUsers(): Observable<any> {

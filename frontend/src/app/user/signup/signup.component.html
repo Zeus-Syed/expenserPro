@@ -33,9 +33,22 @@
                 #password='ngModel' placeholder='password' required>
         </div>
         <div class="form-group">
-            <label>Mobile.No</label>
-            <input type='number' class="form-control" name="newPhoneNo" [(ngModel)]="newPhoneNo"
+            <div class="row">
+                <div class="col-3">
+                        <label>Country</label>
+                        <select [(ngModel)]="countryCode" name="countryCode" #country="ngModel"  class="form-control" required>
+                                <option *ngFor="let x of res" [ngValue]="x">
+                                      {{x}} 
+                                    </option>
+                            </select>
+                </div>
+
+                <div class="col-9">
+                <label>Mobile.No</label>
+               <input type='number' class="form-control" name="newPhoneNo" [(ngModel)]="newPhoneNo"
                 #Phoneno="ngModel" placeholder='Mobile.no' required>
+            </div>
+            </div>
         </div>
         
         <button type="submit" class="btn btn-success" [disabled]='!signUpForm.form.valid'>Sign-Up</button>

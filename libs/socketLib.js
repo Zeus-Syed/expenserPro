@@ -66,6 +66,7 @@ let OnlineUsers = [];
        
         socket.to(socket.room).broadcast.emit('online-user-list', OnlineUsers);
         socket.leave(socket.room);
+        //socket.open();
        } );
 
       

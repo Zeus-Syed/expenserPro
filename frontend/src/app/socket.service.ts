@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,11 +10,19 @@ export class SocketService {
 
   private url = 'http://localhost:3000';
 private socket;
+public authToken;
+
   constructor(public toastr: ToastrManager) {
-    this.socket = io(this.url);
+    this.socket = io(this.url,{
+     'forceNew': true
+    });
+    this.authToken = Cookie.get('authToken');
+   //this.verifyUser();
+  // this.onlineUserList();
     this.historyDetails();
     console.log('socket-service called');
    }
+  
 
    public verifyUser = () =>{
 return Observable.create((observer)=>{
@@ -23,9 +32,22 @@ return Observable.create((observer)=>{
     });
    }
 
+   /*public verifyUser = () =>{
+     this.socket.on('verifyUser', (data)=>{
+       this.setUser();
+       this.onlineUserList();
+     })
+   }*/
+
    public setUser = (authToken) => {
     this.socket.emit("set-user", authToken);
   }
+
+  /*public onlineUserList = ()=>{
+    this.socket.on('online-user-list', (userList)=>{
+      console.log(userList)
+    });
+  }*/
 
   public onlineUserList = () => {
     return Observable.create((observer) => {
@@ -38,6 +60,9 @@ return Observable.create((observer)=>{
 public exitSocket = () =>{
 
   this.socket.disconnect();
+  console.log('socket disconnected');
+  //this.socket.open();
+  
 }
 
 /*public historyDetails = ()=>{

@@ -27,6 +27,7 @@ export class GroupUsersComponent implements OnInit {
     this.usersArray = this.userService.getAllUsers().subscribe(
       (data) => {
         this.usersArray = data['data'];
+        console.log(this.usersArray);
       },
       (err) => {
         console.log("some error");
@@ -53,7 +54,7 @@ export class GroupUsersComponent implements OnInit {
    
 let flag = 0;
     for (let x of this.recordsArray) {
-      if (defaultRecord.userId === x.userId) {
+      if (defaultRecord.userId === x['userId']) {
         flag = 1; break;
       }
     }
@@ -82,7 +83,7 @@ if(flag==1){
     }
     else {
       for (let x of this.recordsArray) {
-        if (record.userId === x.userId) {
+        if (record.userId === x['userId']) {
           flag = 1; break;
         }
       }
@@ -101,7 +102,7 @@ if(flag==1){
 
     //this.recordsArray.splice(record, 1);
     this.recordsArray = this.recordsArray.filter((e)=>{
-      return e.userId !== record.userId
+      return e['userId'] !== record.userId
     })
     console.log(this.recordsArray);
   }

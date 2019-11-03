@@ -14,43 +14,8 @@ const AuthModel = mongoose.model('Auth');
 
 let resetPassword = (req, res)=>{
 
-  /*UserModel.findOne({email:req.body.email})
-  .select('-password -__v -_id')
-  .lean()
-  .exec((err, fetchedDetails)=>{
-    if(err){
-      logger.error('Failed to fetch all users', 'userController: getSingleUser()', 10)
-      let apiResponse = response.generate(true, 'Failed to fetch users', 500, null)
-      res.send(apiResponse);
-    }
-    else if(check.isEmpty(fetchedDetails)){
-      logger.error('No Users found', 'userController: getSingleUser()', 10)
-      let apiResponse = response.generate(true, 'NO user found', 404, null)
-      res.send(apiResponse);
-    }
-    else{
-     
-     fetchedDetails.password = passwordLib.hashPassword(req.body.password);
-     //fetchedDetails.markModified('password');
-     fetchedDetails.visits.$inc();
-     fetchedDetails.save((err, details)=>{
-       if(err){
-        logger.error('Failed to fetch all users', 'userController: getSingleUser()', 10)
-        let apiResponse = response.generate(true, 'Failed to fetch users', 500, null)
-        res.send(apiResponse);
-       }
-       else{
-        logger.info('Users found', 'userController: getSingleUser()', 10);
-        let apiResponse = response.generate(false, 'User Found!!!', 200, details);
-        res.send(apiResponse);
-       }
-     }) 
-
-      
-    }
-  })*/
    password = passwordLib.hashPassword(req.body.password);
-console.log(typeof(password));
+   console.log(typeof(password));
   let Option = {
     password
   }
@@ -67,8 +32,8 @@ console.log(typeof(password));
       res.send(apiResponse);
     }
     else{
-      logger.info('Users edited Succesfully', 'userController: editUser()', 10);
-      let apiResponse = response.generate(false, 'Edited Successfully!!!', 200, fetchedDetails);
+      logger.info('Password reset Succesfully', 'userController: editUser()', 10);
+      let apiResponse = response.generate(false, 'Password reset Successfully!!!', 200, fetchedDetails);
       res.send(apiResponse);
     }
   })
@@ -119,6 +84,7 @@ let signUpFunc = (req, res) => {
               firstName: req.body.firstName,
               lastName: req.body.lastName,
               email: req.body.email.toLowerCase(),
+              countryCode: req.body.countryCode,
               phoneNo: req.body.phoneNo,
               password: passwordLib.hashPassword(req.body.password),
               createdOn: time.now()

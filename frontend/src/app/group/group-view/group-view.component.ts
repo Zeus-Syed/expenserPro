@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/user.service';
 import { SocketService } from 'src/app/socket.service';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -25,9 +26,10 @@ export class GroupViewComponent implements OnInit {
   constructor(public toastr: ToastrManager,
     public groupService: GroupServiceService,
     public router: Router, public userService: UserService,
-     public socketService: SocketService) { }
+     public socketService: SocketService, public http: HttpClient) { }
 
   ngOnInit() {
+    console.log('group-view called!!');
     this.userInfo = this.userService.getUserInfoFromLocalStorage();
     this.authToken = Cookie.get('authToken');
    console.log(this.userInfo.userId);
@@ -102,13 +104,15 @@ console.log('online users fetching!!!');
   )
 }*/
 
+
+
   public goToCreateGroup = () => {
     this.router.navigate(['/gcreate']);
   }
  public logOut = ()=>{
    console.log('logged out successfully!!');
-
-   this.userService.logOut()
+      
+   this.userService.logOut(this.authToken)
     .subscribe((myResponse) =>{
       if(myResponse.status === 200){
         console.log("logout called");
