@@ -83,6 +83,7 @@ public getOnlineUsersList=()=>{
 
   this.socketService.onlineUserList().subscribe(
     (usersList)=>{
+      console.log(usersList);
       this.onlineUsers = [];
         this.onlineUsers = usersList;
         console.log(this.onlineUsers);
