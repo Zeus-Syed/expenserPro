@@ -4,7 +4,8 @@ import { GroupServiceService } from '../group-service.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { UserService } from 'src/app/user.service';
 import { Location } from '@angular/common';
-//import $ from "jquery";
+import { SocketService } from 'src/app/socket.service';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-group-expense',
@@ -24,11 +25,16 @@ export class GroupExpenseComponent implements OnInit {
   public temp1;
   public expenses;
   public pendingDetails:Array<Object> = [];
+  public emails = [];
+  public emails1;
+  public temp2;
+  public authToken;
   constructor(public _route: ActivatedRoute, public groupService: GroupServiceService,
-    public route: Router, public toastr: ToastrManager, public userService: UserService, public location: Location) { }
+    public route: Router, public toastr: ToastrManager, public userService: UserService,
+     public location: Location, public socketService: SocketService) { }
 
   ngOnInit() {
-
+     this.authToken = Cookie.get('authToken');
     //this.temp1 = this.userService.getUserInfoFromLocalStorage();
     //this.payerName = this.temp1.firstName;
     let groupId = this._route.snapshot.paramMap.get('groupId');
@@ -51,7 +57,14 @@ export class GroupExpenseComponent implements OnInit {
         console.log(this.usersList);
         for (let x of this.usersList) {
           this.userNames.push(x.firstName);
+          this.userService.getSingleUser(x.userId).subscribe(
+            (data)=>{
+              let y = data.data.email;
+              this.emails.push(y);
+            }
+          )
         }
+        console.log(this.emails);
         console.log(this.userNames);
       },
       (err) => {
@@ -60,8 +73,21 @@ export class GroupExpenseComponent implements OnInit {
     )
 
     this.getAllExpenses();
+    //this.historyDetails();
 
   }  // ngOnit
+
+  /*public historyDetails =()=>{
+    this.socketService.historyDetails().subscribe(
+      (message)=>{
+      // console.log(message);
+        this.toastr.successToastr(message);
+      },
+      (err)=>{
+        console.log(err);
+      }
+    )
+  }*/
 
 
 
@@ -73,8 +99,8 @@ export class GroupExpenseComponent implements OnInit {
     let expAdder = temp.firstName;
     console.log(this.payerName);
     //let payerdetails = Object.assign(this.payerName);
-    let pName = this.payerName.firstName;
-    let payerId = this.payerName.userId;
+    let pName = this.payerName['firstName'];
+    let payerId = this.payerName['userId'];
 
     let data = {
       groupId: groupId,
@@ -98,9 +124,32 @@ export class GroupExpenseComponent implements OnInit {
         if (data.status == 200) {
           this.toastr.successToastr("Expense created successfully!!");
   this.history = data['data'];
-
+console.log(this.history);
   
       let history = `${expAdder} added ${this.newExpenseName} in ${this.temp.groupName}`;
+      
+      this.socketService.expenseHistory(history);
+
+      //let temp = Object.assign({}, this.emails);
+       // temp['message'] = history;
+       // console.log(temp);
+       this.emails1 = this.emails.join();
+
+       let mail = {
+        from: 'nadeemcool47@gmail.com',
+        to: `${this.emails1}`,
+        subject: 'Expense Addition',
+        text: `${history}`
+       }
+       console.log(mail);
+
+       this.userService.sendMail(mail).subscribe(
+         (data)=>{
+           console.log(data);
+         }
+       )
+
+
 
       let historyDetails = {
         details: history,
@@ -143,6 +192,7 @@ this.groupService.createHistory(historyDetails).subscribe(
 
           //
           let temp = Object.assign({}, this.userNames);
+          console.log(temp);
           function swap(result) {
             var ret = {};
             for (var key in result) {
@@ -185,7 +235,7 @@ this.groupService.createHistory(historyDetails).subscribe(
   public deleteGroup = () => {
     let groupId = this._route.snapshot.paramMap.get('groupId');
 
-    this.groupService.deleteGroup(groupId).subscribe(
+    this.groupService.deleteGroup(groupId, this.authToken).subscribe(
       (data) => {
         this.toastr.successToastr("DELETED SUCCESSFULLY!!");
         this.route.navigate(['/group']);
@@ -202,9 +252,10 @@ this.groupService.createHistory(historyDetails).subscribe(
   }
 
   public amountPending = (res) => {
+    
     const users = Object.keys(res);
     const amountPaid = Object.values(res);
-    const sum = amountPaid.reduce((acc, curr) => curr + acc);
+    const sum:any = amountPaid.reduce((acc:number, curr:number) => curr + acc, 0);
     const mean = sum / users.length;
     const sortedPeople = users.sort((personA, personB) => res[personA] - res[personB]);
     const sortedValuesPaid = sortedPeople.map((person) => res[person] - mean);

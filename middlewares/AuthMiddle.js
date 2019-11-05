@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('../models/Auth');
 const AuthModel = mongoose.model('Auth');
 const logger = require('../libs/loggerLib')
 const check = require('../libs/checkLib');
@@ -6,7 +7,7 @@ const token = require('../libs/tokenLib');
 const response = require('../libs/responseLib')
 
 let isAuthenticated = (req, res, next) => {
-      
+      console.log("auth check called");
     if(req.params.authToken || req.query.authToken || req.body.authToken || req.header('authToken')){
         AuthModel.findOne({authToken: req.params.authToken || req.query.authToken || req.body.authToken || req.header('authToken')},(err, fetchedDetails)=>{
             if(err){
@@ -15,7 +16,7 @@ let isAuthenticated = (req, res, next) => {
         res.send(apiResponse);
             }
             else if(check.isEmpty(fetchedDetails)){
-                logger.error('Invalid or expired Auth Token','AuthMiddle:isAuthenticated',7)
+                logger.error('CHECKKInvalid or expired Auth Token','AuthMiddle:isAuthenticated',7)
         let apiResponse = response.generate(true, "Invalid or expired Auth Token",404,null);
         res.send(apiResponse);
             }

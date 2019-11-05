@@ -1,9 +1,10 @@
 
 
 <div class="container" style="text-align:center">
-  <nav class="navbar navbar-light bg-dark nav-tabs" >
-    <a class="nav-link active" [routerLink]="['/group']" ><h3>Groups</h3></a>
-    <a [routerLink]="['/history']" ><h3>History</h3></a>
+  <nav class="navbar navbar-light nav-tabs" style="background-color: #e3f2fd;">
+    <a class="nav-link active" [routerLink]="['/group']" >Groups</a>
+    <button type="button" (click)='logOut()' class='btn btn-primary'>LogOut</button>
+    <a [routerLink]="['/history']" >History</a>
   </nav>
 
 <button type='button' (click)='goToCreateGroup()' class="btn btn-warning">CREATE A NEW GROUP</button>

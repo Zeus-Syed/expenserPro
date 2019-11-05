@@ -1,0 +1,964 @@
+define({ "api": [
+  {
+    "type": "get",
+    "url": "/history/:authToken/view",
+    "title": "Get all histories",
+    "version": "0.0.1",
+    "group": "History",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "authToken",
+            "description": "<p>token of the history. (query params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"Histories Found!!\",\n\t    \"status\": 200,\n\t\t\"data\": \n\t\t    {\n\t\t\t\t[\t\n                    {\n\t\t\t\t\t\tcreatedOn: \"2019-11-02T12:56:30.000Z\"\n                        details: \"Rocky added fresh in bigil\"\n                        historyId: \"KOVf_RA6d\"\n\t\t\t\t\t}\n\t    \t\t]\n\t    \t}\n\t\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find history Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/history.js",
+    "groupTitle": "History",
+    "name": "GetHistoryAuthtokenView"
+  },
+  {
+    "group": "History",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/history/create",
+    "title": "api for history creation.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "details",
+            "description": "<p>details of the history. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "createdOn",
+            "description": "<p>created data of the history. (body params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"History created Successfully!!\",\n    \"status\": 200,\n    \"data\": {\n          createdOn: \"2019-11-02T12:56:30.000Z\"\n          details: \"Rocky added fresh in bigil\"\n          historyId: \"KOVf_RA6d\"\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To create history\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/history.js",
+    "groupTitle": "History",
+    "name": "PostHistoryCreate"
+  },
+  {
+    "group": "Mail",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/users/sendmail",
+    "title": "api to send mail.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "from",
+            "description": "<p>Sender mail Id. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "to",
+            "description": "<p>Receipients. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "subject",
+            "description": "<p>subject of the mail. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "text",
+            "description": "<p>content of the mail. (body params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\n\"Email sent250 2.0.0 OK  1572784121 65sm1595785pff.2 - gsmtp\"",
+          "type": "object"
+        }
+      ]
+    },
+    "filename": "routes/sendMail.js",
+    "groupTitle": "Mail",
+    "name": "PostUsersSendmail"
+  },
+  {
+    "type": "get",
+    "url": "/expenses/single/:expId",
+    "title": "Get single expense",
+    "version": "0.0.1",
+    "group": "expense",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "expID",
+            "description": "<p>unique ID of the expense. (query parameter) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"expense Found!!\",\n\t    \"status\": 200,\n\t    \"data\": \n\t\t\t\t\t{\n\t\t\t\t\t\t      amount: 600\n                        createdOn: \"2019-10-31T16:08:48.000Z\"\n                        expAdder: \"person\"\n                        expId: \"Xk5FMS7A\"\n                        expName: \"flop\"\n                        groupId: \"XLRe34e-\"\n                        payerId: \"vq2Vz-WJ\"\n                        payerName: \"person\"\n\t\t\t\t\t}\n\t    \t\t\n\t    \t}\n\t\t}\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/expense.js",
+    "groupTitle": "expense",
+    "name": "GetExpensesSingleExpid"
+  },
+  {
+    "type": "get",
+    "url": "/expenses/view/:groupId",
+    "title": "Get all expense",
+    "version": "0.0.1",
+    "group": "expense",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "groupId",
+            "description": "<p>groupId of the expense. (query parameter) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n\t    \"error\": false,\n\t    \"message\": \"expense Found!!\",\n\t    \"status\": 200,\n       \"data\": \n         {\n\t\t\t\t[\t\n               {\n\t\t\t\t\t\t      amount: 600\n                        createdOn: \"2019-10-31T16:08:48.000Z\"\n                        expAdder: \"person\"\n                        expId: \"Xk5FMS7A\"\n                        expName: \"flop\"\n                        groupId: \"XLRe34e-\"\n                        payerId: \"vq2Vz-WJ\"\n                        payerName: \"person\"\n\t\t\t\t\t}\n\t    \t\t]\n         }\n      }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/expense.js",
+    "groupTitle": "expense",
+    "name": "GetExpensesViewGroupid"
+  },
+  {
+    "group": "expense",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/expenses/create",
+    "title": "api for expense creation.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "expName",
+            "description": "<p>name of the expense. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "number",
+            "optional": false,
+            "field": "amount",
+            "description": "<p>total amount of the expense. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "payerName",
+            "description": "<p>Payer of the expense. (body params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"Expense created Successfully!!\",\n    \"status\": 200,\n    \"data\": {\n       amount: 100\n       createdOn: \"2019-11-03T10:37:47.000Z\"\n       expAdder: \"person\"\n       expId: \"7O7VO8vS\"\n       expName: \"red\"\n       groupId: \"XLRe34e-\"\n       payerId: \"vq2Vz-WJ\"\n       payerName: \"person\"\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To create expense\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/expense.js",
+    "groupTitle": "expense",
+    "name": "PostExpensesCreate"
+  },
+  {
+    "group": "expense",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/expenses/delete/:expId",
+    "title": "api for expense deletion.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "expId",
+            "description": "<p>unique ID of the expense. (query params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"Expense deleted successfully!!!\",\n    \"status\": 200,\n    \"data\": {\n       n: 1, ok: 1, deletedCount: 1\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To delete expense\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/expense.js",
+    "groupTitle": "expense",
+    "name": "PostExpensesDeleteExpid"
+  },
+  {
+    "group": "expense",
+    "version": "1.0.0",
+    "type": "put",
+    "url": "/expenses/edit/:expId",
+    "title": "api for expense updation.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "expName",
+            "description": "<p>name of the expense. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "number",
+            "optional": false,
+            "field": "amount",
+            "description": "<p>total amount of the expense. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "payerName",
+            "description": "<p>Payer of the expense. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "expId",
+            "description": "<p>unique ID of the expense. (query params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"Expense EDITED!!!\",\n    \"status\": 200,\n    \"data\": {\n       n: 1, nModified: 1, ok: 1\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To edit expense\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/expense.js",
+    "groupTitle": "expense",
+    "name": "PutExpensesEditExpid"
+  },
+  {
+    "type": "get",
+    "url": "/group/view/all",
+    "title": "Get all groups",
+    "version": "0.0.1",
+    "group": "group",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"Groups Found!!\",\n\t    \"status\": 200,\n\t    \"data\": \n\t\t\t\t[\t\n                    {\n\t\t\t\t\t\tcreatedOn: \"2019-10-19T09:01:30.000Z\"\n                        groupId: \"C_iNPolW\"\n                        groupName: \"12th grp\"\n                        userList: [\"[{\"userId\":\"z8twovUq\",\"firstName\":\"Tong\"},{\"userId\":\"2A979AU\",\"firstName\":\"Lee\"}]\"]\n\t\t\t\t\t}\n\t    \t\t]\n\t    \t}\n\t\t}\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find group Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/group.js",
+    "groupTitle": "group",
+    "name": "GetGroupViewAll"
+  },
+  {
+    "type": "get",
+    "url": "/group/view/:groupId",
+    "title": "Get single groups",
+    "version": "0.0.1",
+    "group": "group",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"Group Found!!\",\n\t    \"status\": 200,\n\t    \"data\": \n\t\t\t\t\t\n                    {\n\t\t\t\t\t\tcreatedOn: \"2019-10-19T09:01:30.000Z\"\n                        groupId: \"C_iNPolW\"\n                        groupName: \"12th grp\"\n                        userList: [\"[{\"userId\":\"z8twovUq\",\"firstName\":\"Tong\"},{\"userId\":\"2A979AU\",\"firstName\":\"Lee\"}]\"]\n\t\t\t\t\t}\n\t    \t\t\n\t    \t}\n\t\t}\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find group Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/group.js",
+    "groupTitle": "group",
+    "name": "GetGroupViewGroupid"
+  },
+  {
+    "group": "group",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/group/create",
+    "title": "api for group creation.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "groupName",
+            "description": "<p>name of the group. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "usersList",
+            "description": "<p>users list of the group. (body params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"group created Successfully!!\",\n    \"status\": 200,\n    \"data\": {\n          createdOn: \"2019-11-03T12:15:26.000Z\"\n          groupId: \"0VzXM73w\"\n          groupName: \"kaithodum\"\n          userList: [\"[{\"userId\":\"cWh-_IUD\",\"firstName\":\"ilaya\"},{..}]\"]\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To create group\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/group.js",
+    "groupTitle": "group",
+    "name": "PostGroupCreate"
+  },
+  {
+    "group": "group",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/group/delete/:groupId/:authToken",
+    "title": "api for group deletion.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "groupId",
+            "description": "<p>unique ID of the group. (query params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "authToken",
+            "description": "<p>unique token for the group. (query params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"Group deleted successfully!!!\",\n    \"status\": 200,\n    \"data\": {\n       n: 1, ok: 1, deletedCount: 1\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To delete group\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/group.js",
+    "groupTitle": "group",
+    "name": "PostGroupDeleteGroupidAuthtoken"
+  },
+  {
+    "type": "get",
+    "url": "users/details/:email",
+    "title": "Get single user",
+    "version": "0.0.1",
+    "group": "users",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "email",
+            "description": "<p>email of the user. (auth headers) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"User Found!!\",\n\t    \"status\": 200,\n\t    \"data\": \n\t\t\t\t\t{\n\t\t\t\t\t\tcreatedOn: \"2019-10-16T15:29:00.000Z\"\n                        email: \"noob@gmail.com\"\n                        firstName: \"noob\"\n                        lastName: \"guy\"\n                        phoneNo: 9212145674\n                        userId: \"2A979Ms8\"\n\t\t\t\t\t}\n\t    \t\t\n\t    \t}\n\t\t}\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "GetUsersDetailsEmail"
+  },
+  {
+    "type": "get",
+    "url": "users/:userId/details",
+    "title": "Get single user",
+    "version": "0.0.1",
+    "group": "users",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>userId of the user. (auth headers) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"User Found!!\",\n\t    \"status\": 200,\n\t    \"data\": \n\t\t\t\t\t{\n\t\t\t\t\t\tcreatedOn: \"2019-10-16T15:29:00.000Z\"\n                        email: \"noob@gmail.com\"\n                        firstName: \"noob\"\n                        lastName: \"guy\"\n                        phoneNo: 9212145674\n                        userId: \"2A979Ms8\"\n\t\t\t\t\t}\n\t    \t\t\n\t    \t}\n\t\t}\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "GetUsersUseridDetails"
+  },
+  {
+    "type": "get",
+    "url": "users/view/all",
+    "title": "Get all users",
+    "version": "0.0.1",
+    "group": "users",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n\t    \"error\": false,\n\t    \"message\": \"Users Found!!\",\n\t    \"status\": 200,\n\t    \"data\": [\n\t\t\t\t\t{\n\t\t\t\t\t\tcreatedOn: \"2019-10-16T15:29:00.000Z\"\n                        email: \"noob@gmail.com\"\n                        firstName: \"noob\"\n                        lastName: \"guy\"\n                        phoneNo: 9212145674\n                        userId: \"2A979Ms8\"\n\t\t\t\t\t}\n\t    \t\t]\n\t    \t}\n\t\t}\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "GetUsersViewAll"
+  },
+  {
+    "group": "users",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/users/login",
+    "title": "api for user login.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "email",
+            "description": "<p>email of the user. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>password of the user. (body params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"Login Successful\",\n    \"status\": 200,\n    \"data\": {\n        \"authToken\": \"eyJhbGciOiJIUertyuiopojhgfdwertyuVCJ9.MCwiZXhwIjoxNTIwNDI29tIiwibGFzdE5hbWUiE4In19.hAR744xIY9K53JWm1rQ2mc\",\n        \"userDetails\": {\n        \"countryCode\": \"91-India\",\n        \"email\": \"person@mail.com\",\n        \"firstName\": \"person\",\n        \"lastName\": \"X\",\n        \"phoneNumber\": 9367232111,\n        \"userId\": cWh-_IUD\"\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "PostUsersLogin"
+  },
+  {
+    "group": "users",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/users/logout",
+    "title": "to logout user.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>userId of the user. (auth headers) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"Logged Out Successfully\",\n    \"status\": 200,\n    \"data\": null\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "PostUsersLogout"
+  },
+  {
+    "group": "users",
+    "version": "1.0.0",
+    "type": "post",
+    "url": "/users/signup",
+    "title": "api for user account creation.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "firstname",
+            "description": "<p>firstname of the user. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "lastname",
+            "description": "<p>lastname of the user. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "email",
+            "description": "<p>email of the user. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>password of the user. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "phoneCode",
+            "description": "<p>phoneCode of the user. (body params) (required)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "number",
+            "optional": false,
+            "field": "Mobile.no",
+            "description": "<p>Mobile.no of the user. (body params) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"User created\",\n    \"status\": 200,\n    \"data\": {\n        countryCode: \"91-India\"\n        createdOn: \"2019-11-03T09:58:54.000Z\"\n        email: \"bhumi@gmail.com\"\n        firstName: \"bhumi\"\n        lastName: \"naadan\"\n        phoneNo: 9614726712\n        userId: \"ge0Yu0M7\"\n    }\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "\n{\n\t    \"error\": true,\n\t    \"message\": \"Failed To Find user Details\",\n\t    \"status\": 500,\n\t    \"data\": null\n\t   }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "PostUsersSignup"
+  },
+  {
+    "group": "users",
+    "version": "1.0.0",
+    "type": "put",
+    "url": "/users/reset",
+    "title": "to reset user password.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>userId of the user. (auth headers) (required)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "myResponse",
+            "description": "<p>shows error status, message, http status code, result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " {\n    \"error\": false,\n    \"message\": \"password reset Successfully\",\n    \"status\": 200,\n    \"data\": null\n\n}",
+          "type": "object"
+        }
+      ]
+    },
+    "filename": "routes/user.js",
+    "groupTitle": "users",
+    "name": "PutUsersReset"
+  }
+] });

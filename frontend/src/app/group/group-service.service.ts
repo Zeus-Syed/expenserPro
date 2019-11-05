@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupServiceService {
  private url = 'http://localhost:3000';
-
  public userNames;
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+    console.log('Group service called');
+   }
 
-  //public getGroups():Observable<any>{
-       
-//return this.http.get(this.url+'/group/view');
- // }
 
 public createGroup(data):Observable<any>{
 const params = new HttpParams()
@@ -32,9 +30,9 @@ public getSingleGroup(groupId):Observable<any>{
   return this.http.get(`${this.url}/group/view/${groupId}`);
 }
   
-public deleteGroup(groupId):Observable<any>{
+public deleteGroup(groupId, authToken):Observable<any>{
 let data = {}
-  return this.http.post(`${this.url}/group/delete/${groupId}`,data);
+  return this.http.post(`${this.url}/group/delete/${groupId}/${authToken}`,data);
 }
 
 
@@ -80,9 +78,9 @@ public createHistory = (data) =>{
    return this.http.post(`${this.url}/history/create`, data); 
 }
 
-public getAllHistory = () =>{
+public getAllHistory = (skip, authToken) =>{
   
-  return this.http.get(`${this.url}/history/view`);
+  return this.http.get(`${this.url}/history/${authToken}/view?skip=${skip}`);
 }
 
 }

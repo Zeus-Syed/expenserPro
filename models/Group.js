@@ -16,8 +16,9 @@ const GroupSchema = new Schema({
       type: String,
       unique: true
   },
-  userList: [listSchema],
-
+  userList: {
+      type: Array
+  },
   createdOn: {
       type: Date,
       default: time.now()

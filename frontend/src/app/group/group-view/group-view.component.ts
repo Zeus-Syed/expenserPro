@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrModule } from 'ng6-toastr-notifications';
+import {  ToastrManager } from 'ng6-toastr-notifications';
 import { GroupServiceService } from '../group-service.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/user.service';
 import { SocketService } from 'src/app/socket.service';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -12,7 +13,6 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
   selector: 'app-group-view',
   templateUrl: './group-view.component.html',
   styleUrls: ['./group-view.component.css'],
-  
 })
 export class GroupViewComponent implements OnInit {
   public authToken;
@@ -23,12 +23,13 @@ export class GroupViewComponent implements OnInit {
   public groupsArray:Array<object>=[];
   public tempGroupsArray;
   public onlineUsers = [];
-  constructor(public toastr: ToastrModule,
+  constructor(public toastr: ToastrManager,
     public groupService: GroupServiceService,
     public router: Router, public userService: UserService,
-     public socketService: SocketService) { }
+     public socketService: SocketService, public http: HttpClient) { }
 
   ngOnInit() {
+    console.log('group-view called!!');
     this.userInfo = this.userService.getUserInfoFromLocalStorage();
     this.authToken = Cookie.get('authToken');
    console.log(this.userInfo.userId);
@@ -40,7 +41,7 @@ export class GroupViewComponent implements OnInit {
         for (let x of this.tempGroupsArray) {
           let flag;
           this.temp = Object.values(x);
-
+        
           this.temp2 = JSON.parse(this.temp[0]);
 
    //console.log(this.temp2);
@@ -68,6 +69,8 @@ export class GroupViewComponent implements OnInit {
       }
     )
 this.verifyUser();
+//this.getOnlineUsersList();
+//this.historyDetails();
   }
 
   public verifyUser =()=>{
@@ -80,22 +83,55 @@ this.socketService.verifyUser().subscribe(
   }
 
 public getOnlineUsersList=()=>{
-
+console.log('online users fetching!!!');
   this.socketService.onlineUserList().subscribe(
-    (usersList)=>{
-      console.log(usersList);
-      this.onlineUsers = [];
-        this.onlineUsers = usersList;
-        console.log(this.onlineUsers);
+    (userList)=>{
+     
+       console.log(userList);
     }
   )
 }
 
+/*public historyDetails =()=>{
+  this.socketService.historyDetails().subscribe(
+    (message)=>{
+     console.log(message);
+      this.toastr.successToastr(message);
+    },
+    (err)=>{
+      console.log(err);
+    }
+  )
+}*/
+
+
+
   public goToCreateGroup = () => {
     this.router.navigate(['/gcreate']);
   }
-
-
+ public logOut = ()=>{
+   console.log('logged out successfully!!');
+      
+   this.userService.logOut(this.authToken)
+    .subscribe((myResponse) =>{
+      if(myResponse.status === 200){
+        console.log("logout called");
+        Cookie.delete("UserId");
+        Cookie.delete('UserName');
+        Cookie.delete("authToken");
+        this.socketService.exitSocket();
+        console.log('log out confirmation');
+        this.router.navigate(['/']);
+      }
+      else{
+        console.log(myResponse.message);
+      }
+    }, (err) =>{
+      console.log("someerror Ocuured!!!");
+    }
+    );
+ }
+ 
 
 
 

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from '@angular/router';
 import { GroupServiceService } from '../group-service.service';
-
+import { Location } from '@angular/common';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-group-create',
@@ -13,8 +14,10 @@ export class GroupCreateComponent implements OnInit {
 
 public newGroupName;
 public sendList;
+public authToken;
  public usersList:Array<object> =[];
-  constructor(public toastr: ToastrManager, public router: Router, public groupService: GroupServiceService) { }
+  constructor(public toastr: ToastrManager, public router: Router, 
+    public groupService: GroupServiceService, public location: Location) { }
 
   ngOnInit() {
   }
@@ -29,6 +32,9 @@ console.log(this.usersList);
   }
   public goToGroupView = () =>{
     this.router.navigate(['/group']);
+  }
+  public goBack=() =>{
+    this.location.back();
   }
 
   public createGroup = () =>{
@@ -47,9 +53,11 @@ this.toastr.warningToastr("ENTER GROUP NAME!!!")
       usersList: this.usersList
     }
   console.log(data);
+      this.authToken = Cookie.get('authToken');
     this.groupService.createGroup(data).subscribe(
       (data)=>{
             if(data.status == 200){
+              console.log(data);
               this.toastr.successToastr("Group created succesfully");
               let temp = JSON.parse(data.data.userList)
               console.log(temp);

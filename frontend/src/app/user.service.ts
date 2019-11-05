@@ -9,7 +9,9 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class UserService {
   private url = 'http://localhost:3000';
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+    console.log('user service called!!!');
+   }
 
 
   //signup funct
@@ -20,6 +22,7 @@ export class UserService {
     .set('phoneNo',data.phoneNo)
     .set('email',data.email)
     .set('password',data.password)
+    .set('countryCode', data.countryCode)
     return this.http.post(this.url+'/users/signup',data);
   }
 
@@ -37,14 +40,33 @@ export class UserService {
     return this.http.post(this.url+'/users/login', data);
   }
 
-  public logout(): Observable<any> {
-    const params = new HttpParams()
-    .set('authToken',Cookie.get('authToken'))
-    return this.http.post(`${this.url}/users/logout`, params);
+  public logOut(authToken): Observable<any> {
+   let data = {};
+    return this.http.post(`${this.url}/users/logout/${authToken}`, data);
   }
 
   public getAllUsers(): Observable<any> {
 //let authToken = Cookie.get('authToken');
 return this.http.get(`${this.url}/users/view/all`);
   }
+
+  public getSingleUser(userId):Observable<any>{
+    return this.http.get(`${this.url}/users/${userId}/details`);
+  }
+
+  public getSingleUserByEmail(email):Observable<any>{
+    return this.http.get(`${this.url}/users/details/${email}`);
+  }
+
+  public sendMail(data):Observable<any>{
+    return this.http.post(`${this.url}/users/sendmail`, data);
+  }
+
+  public resetPassword(data):Observable<any>{
+    //const params = new HttpParams()
+    //.set('email', data.email)
+    //.set('password',data.password)
+    return this.http.put(this.url+'/users/reset', data);
+  }
+
 }

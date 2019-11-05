@@ -112,6 +112,7 @@ let deleteExpense = (req, res) => {
     else{
       logger.info('Deleted Successfully!!', 'expenseController: deleteExpense()', 10);
       let apiResponse = response.generate(false, 'Deleted Successfully!!', 200, fetchedDetails);
+      apiResponse.createdOn = time.now();
       res.send(apiResponse);
     }
   })
@@ -136,7 +137,7 @@ expenseModel.update({'expId': req.params.expId}, options, {multi: true}).exec((e
   else {
      
       logger.info('EXPENSE EDITED SUCCESSSFULY!!','expenseController-->editExpense',5);
-      let apiResponse = response.generate(false,"BLOG EDITED!!!",200,result);
+      let apiResponse = response.generate(false,"Expense EDITED!!!",200,result);
       res.send(apiResponse)
      }
 })

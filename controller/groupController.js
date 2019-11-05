@@ -22,7 +22,7 @@ let groupCreate = (req, res) => {
             let newGroup = new groupModel({
                groupName: req.body.groupName,
                 groupId: shortid.generate(),
-              // userList: req.body.userList,
+               userList: req.body.userList,
                 createdOn: time.now()
             })
            // let list = JSON.parse(req.body.userList);

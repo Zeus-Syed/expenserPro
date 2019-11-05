@@ -2,7 +2,7 @@
 
 <div class="container" style="text-align:center">
 
-  <h3>Available Users:</h3>
+  <h4>Select Users:</h4>
 
     <div style="text-align:center" *ngIf="usersArray.length>0">
 <div *ngFor = 'let user of usersArray'  (click)="storeUsers(user.userId, user.firstName)" class="col-md-4">
@@ -19,8 +19,11 @@
 </div>
 
 
-<h3>Selected Users:</h3>
-<h3>Click on the below users to REMOVE from the list!!!</h3>
+<h4>Selected Users:</h4>
+<ul>
+  <li>Click on below users to REMOVE from list <mark>before 'CONFIRM'</mark></li>
+   <li>If editing, press CONFIRM <mark>before creating the group</mark></li> 
+</ul>
 <br>
 <label>YOU and</label>
 <div style="text-align:center" *ngIf="recordsArray.length>0">
@@ -37,6 +40,7 @@
   
   </div>
 
-  <button type="button" (click) = 'sendUsersList()' class='btn btn-primary'>Confirm</button>
+  <button type="button"  (click) = 'sendUsersList(); click=true;click1=false' [disabled]='click'  class='btn btn-primary'>Confirm</button>
+  &nbsp;&nbsp;<button type="button"  (click) = 'click1=true;click=false' [disabled]='click1' class='btn btn-primary'>EDIT</button>
 
 </div>

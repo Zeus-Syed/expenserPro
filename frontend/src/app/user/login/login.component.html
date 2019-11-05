@@ -18,8 +18,8 @@
                 #password='ngModel' placeholder='password' required>
         </div>
         
-
-        <button type="submit" class="btn btn-success" >Sign-in</button>
+        <a [routerLink]="['/forgot']">Forgot Password</a><br><br>
+        <button type="submit" class="btn btn-success" >Sign-in</button>&nbsp;&nbsp;
         <button type="submit" class="btn btn-primary" (click)="goToSignup()">Sign-up</button>
     </form>
 </div>

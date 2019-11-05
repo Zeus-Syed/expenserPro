@@ -12,6 +12,9 @@ let userSchema = new Schema({
     lastName: {
         type: String
     },
+    countryCode:{
+        type: String
+    },
     phoneNo: {
        type:  Number
     },

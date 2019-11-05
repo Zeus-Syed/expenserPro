@@ -1,7 +1,7 @@
 <div class="container">
-<nav class="navbar navbar-light bg-dark nav-tabs" >
-    <a [routerLink]="['/group']" ><h3>Groups</h3></a>
-    <a class="nav-link active" [routerLink]="['/history']" ><h3>History</h3></a>
+<nav class="navbar navbar-light nav-tabs" style="background-color: #e3f2fd;">
+    <a [routerLink]="['/group']" >Groups</a>
+    <a class="nav-link active" [routerLink]="['/history']" >History</a>
   </nav>
 
 <br>
@@ -11,5 +11,5 @@
 </div>
 
 </div>
-
+<button (click)='viewMore()' class="btn btn-success">VIEW MORE</button>
 </div>

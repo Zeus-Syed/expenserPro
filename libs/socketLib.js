@@ -27,9 +27,17 @@ let OnlineUsers = [];
                 let fullName = `${currentUser.firstName} ${currentUser.lastName}`;
                 console.log(`${fullName} is online`);
                 //socket.emit(currentUser.userId, 'You are online');
-   
+                 let flag =0;
                 let userObj = {userId: currentUser.userId, fullName: fullName};
+                for(let x of OnlineUsers){
+                    if(x.userId == currentUser.userId){
+                  flag = 1;
+                break;
+                    }
+                }
+              if(flag == 0){
                 OnlineUsers.push(userObj);
+              }
                 console.log(OnlineUsers);
    
                 socket.room = 'edChat';
@@ -38,7 +46,36 @@ let OnlineUsers = [];
             }
         })
     }) // set-user
+
+    socket.on('history',(message)=>{
+      console.log(message);
+      console.log("Message received");
+     socket.to(socket.room).broadcast.emit('history-details', message);
+     //socket.emit('history-details', message);
+    })
+
+    socket.on('disconnect', ()=>{
+        console.log('Logged out Successfully!!!');
+        console.log(socket.userId);
+      //  let removeIndex = OnlineUsers.map(function(user){ user.userId; }).indexOf(socket.userId);
+        // OnlineUsers.splice(removeIndex,1);
+          OnlineUsers = OnlineUsers.filter((e)=>{
+              return e.userId !== socket.userId;
+          })
+        console.log(OnlineUsers);
+       
+        socket.to(socket.room).broadcast.emit('online-user-list', OnlineUsers);
+        socket.leave(socket.room);
+        //socket.open();
+       
+       } );
+
+      
+
+
  }) //myIO Connection
+
+ 
 
 }
 
