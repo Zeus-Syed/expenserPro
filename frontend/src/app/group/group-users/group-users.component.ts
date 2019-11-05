@@ -10,6 +10,8 @@ import { Cookie } from 'ng2-cookies';
   styleUrls: ['./group-users.component.css']
 })
 export class GroupUsersComponent implements OnInit {
+  public click1:boolean;
+  public click:boolean;
   public usersArray;
   public recordsArray: Array<object> = [];
   public localArray: Array<object> = [];
