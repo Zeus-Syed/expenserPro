@@ -106,7 +106,7 @@ public deleteExpense =()=>{
              this.emails1 = this.emails.join();
 
              let mail = {
-              from: 'nadeemcool47@gmail.com',
+              from: 'zeussyed97@gmail.com',
               to: `${this.emails1}`,
               subject: 'Expense Deletion',
               text: `${history}`
@@ -175,7 +175,7 @@ public editExpense = ()=>{
                  this.emails1 = this.emails.join();
                  
                  let mail = {
-                  from: 'nadeemcool47@gmail.com',
+                  from: 'zeussyed97@gmail.com',
                   to: `${this.emails1}`,
                   subject: 'Expense Updation',
                   text: `${history}`

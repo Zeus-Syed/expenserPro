@@ -25,7 +25,7 @@ import { SocketService } from '../socket.service';
     RouterModule.forChild([
       {path: 'group', component: GroupViewComponent, canActivate:[GroupRouteGuardService]},
       {path: 'gcreate', component: GroupCreateComponent, canActivate:[GroupRouteGuardService]},
-      {path: 'gusers', component: GroupUsersComponent},
+      {path: 'gusers', component: GroupUsersComponent, canActivate:[GroupRouteGuardService]},
       {path: 'gsingle/:groupId', component: GroupExpenseComponent, canActivate:[GroupRouteGuardService]},
       {path: 'esingle/:expId', component: GroupExpenseViewComponent, canActivate:[GroupRouteGuardService]},
       {path: 'history', component: ExpenseHistoryComponent, canActivate:[GroupRouteGuardService]}

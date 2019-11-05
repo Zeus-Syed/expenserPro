@@ -5,8 +5,8 @@ let sendingMail = (req, res) =>{
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: '',
-        pass: ''
+        user: 'zeussyed97@gmail.com',
+        pass: 'Wolverinesyed'
     }
 });
 

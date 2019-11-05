@@ -24,10 +24,10 @@ public  link ='http://localhost:4200/reset';
 this.userService.getSingleUserByEmail(this.email).subscribe(
   (data)=>{
    if(data.status == 200){
-     this.toastr.successToastr("user found!!");
+     this.toastr.successToastr("Recovery Mail Sent to user!!");
 
      let mail = {
-      from: 'nadeemcool47@gmail.com',
+      from: 'zeussyed97@gmail.com',
       to: `${this.email}`,
       subject: 'Password reset',
       text: 'You have requested to reset your password. To reset password, please click '+this.link

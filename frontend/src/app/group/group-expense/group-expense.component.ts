@@ -126,7 +126,7 @@ export class GroupExpenseComponent implements OnInit {
   this.history = data['data'];
 console.log(this.history);
   
-      let history = `${expAdder} added ${this.newExpenseName} in ${this.temp.groupName}`;
+      let history = `${expAdder} added '${this.newExpenseName}' in '${this.temp.groupName}'`;
       
       this.socketService.expenseHistory(history);
 
@@ -136,7 +136,7 @@ console.log(this.history);
        this.emails1 = this.emails.join();
 
        let mail = {
-        from: 'nadeemcool47@gmail.com',
+        from: 'zeussyed97@gmail.com',
         to: `${this.emails1}`,
         subject: 'Expense Addition',
         text: `${history}`

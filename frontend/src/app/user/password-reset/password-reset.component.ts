@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { UserService } from 'src/app/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-reset',
@@ -11,7 +12,7 @@ export class PasswordResetComponent implements OnInit {
   public email;
   public password;
   public cpassword;
-  constructor(public toastr: ToastrManager, public userService: UserService) { }
+  constructor(public toastr: ToastrManager, public userService: UserService, public router:Router) { }
 
   ngOnInit() {
   }
@@ -27,24 +28,43 @@ export class PasswordResetComponent implements OnInit {
     else if (!this.cpassword) {
       this.toastr.warningToastr("Enter confirm password");
     }
-    else {
+    else if(this.email != this.cpassword){
+      this.toastr.warningToastr("Password not matching!!");
+    }
+    else{
 
-        let data = {
-          email: this.email,
-          password: this.password
-        }
-
-      this.userService.resetPassword(data).subscribe(
-        (data) => {
-          if(data.status == 200){
-           this.toastr.successToastr("Password reset successfully!!");
-           console.log(data);
-          }
+      this.userService.getSingleUserByEmail(this.email).subscribe(
+        (data)=>{
+           if(data.status == 200){
+            let data = {
+              email: this.email,
+              password: this.password
+            }
+    
+          this.userService.resetPassword(data).subscribe(
+            (data) => {
+              if(data.status == 200){
+               this.toastr.successToastr("Password reset successfully!!");
+               console.log(data);
+    
+               this.router.navigate(['/']);
+              }
+            },
+            (err) => {
+      console.log(err.message);
+            }
+          )
+           }
+           else{
+            this.toastr.warningToastr("No user found");
+           }
         },
-        (err) => {
-  console.log(err.message);
+        (err)=>{
+         console.log(err.message);
         }
       )
+
+        
 
 
     }
