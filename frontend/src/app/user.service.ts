@@ -8,7 +8,7 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'http://localhost:3000';
+  private url = 'http://api.zeussyed.xyz';
   constructor(public http: HttpClient) {
     console.log('user service called!!!');
    }

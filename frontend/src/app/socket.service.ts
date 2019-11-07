@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
 })
 export class SocketService {
 
-  private url = 'http://localhost:3000';
+  private url = 'http://api.zeussyed.xyz';
 private socket;
 public authToken;
 
