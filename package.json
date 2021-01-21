@@ -24,7 +24,7 @@
     "pino": "^5.13.5",
     "shortid": "^2.2.15",
     "socket-io": "^1.0.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.31"
