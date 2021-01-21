@@ -28,7 +28,7 @@
     "push.js": "^1.0.12",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.3",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.3.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
